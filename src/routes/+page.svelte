@@ -4,6 +4,7 @@
 	export let data: PageData;
 
 	console.log('TESTE DO FRONTEND', form?.teste[0]);
+	kjaskajsk;
 </script>
 
 <h1>Welcome to SvelteKit</h1>
