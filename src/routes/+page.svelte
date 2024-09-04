@@ -6,8 +6,7 @@
 	console.log('TESTE DO FRONTEND', form?.teste[0]);
 </script>
 
-
 <form action="?/teste" method="post">
 	<button type="submit">Teste consulta</button>
 </form>
-<h1>{form?.teste[0].name}</h1>
+<h1 class="font-cormorant">{form?.teste[0].name}</h1>
