@@ -4,11 +4,14 @@
 	import TopBar from '$lib/components/TopBar.svelte';
 </script>
 
-<div class="h-full w-full">
-	<div class="flex">
-		<Sidebar />
-		<TopBar />
-	</div>
+<div class="flex h-full w-full flex-col">
+	<Sidebar />
+	<TopBar />
 
-	<slot></slot>
+	<div class="flex h-full w-full">
+		<div class="w-[15%]">teste</div>
+		<div class="w-[85%]">
+			<slot></slot>
+		</div>
+	</div>
 </div>
