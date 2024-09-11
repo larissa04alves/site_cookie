@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Check } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import Button from '$lib/components/ui/button/button.svelte';
 	import SheetPedidos from '$lib/components/SheetPedidos.svelte';
 </script>
 
@@ -68,7 +67,7 @@
 									scope="col"
 									class="px-4 py-3.5 text-left text-sm font-normal text-gray-500 rtl:text-right"
 								>
-									Descrição
+									Itens do pedido
 								</th>
 
 								<th
@@ -87,10 +86,12 @@
 									scope="col"
 									class="px-4 py-3.5 text-left text-sm font-normal text-gray-500 rtl:text-right"
 								>
+									Descrição
 								</th>
-
-								<th scope="col" class="relative px-4 py-3.5">
-									<span class="sr-only">Status</span>
+								<th
+									scope="col"
+									class="px-4 py-3.5 text-left text-sm font-normal text-gray-500 rtl:text-right"
+								>
 								</th>
 							</tr>
 						</thead>
@@ -116,6 +117,9 @@
 										<h2 class="text-sm font-normal">Finalizado</h2>
 									</div>
 								</td>
+								<td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500"
+									>Entregar na casa amarela</td
+								>
 								<td>
 									<SheetPedidos />
 								</td>

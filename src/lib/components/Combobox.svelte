@@ -6,6 +6,7 @@
 	import * as Popover from '$lib/components/ui/popover/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { cn } from '$lib/utils.js';
+	import { Clock, X } from 'lucide-svelte';
 
 	const status = [
 		{
@@ -47,7 +48,30 @@
 			aria-expanded={open}
 			class="w-[200px] justify-between bg-transparent"
 		>
-			{selectedValue}
+			{#if value === 'finalizado'}
+				<div
+					class="inline-flex items-center gap-x-2 rounded-full bg-green-100/60 px-3 py-1 text-green-500"
+				>
+					<Check class="h-4 w-4" />
+					<h2 class="text-sm font-normal">Finalizado</h2>
+				</div>
+			{:else if value === 'cancelado'}
+				<div
+					class="inline-flex items-center gap-x-2 rounded-full bg-red-100/60 px-3 py-1 text-red-500"
+				>
+					<X class="h-4 w-4" />
+					<h2 class="text-sm font-normal">Cancelado</h2>
+				</div>
+			{:else if value === 'aguardando'}
+				<div
+					class="inline-flex items-center gap-x-2 rounded-full bg-blue-100/60 px-3 py-1 text-blue-500"
+				>
+					<Clock class="h-4 w-4" />
+					<h2 class="text-sm font-normal">Aguardando</h2>
+				</div>
+			{:else}
+				{selectedValue}
+			{/if}
 			<ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 		</Button>
 	</Popover.Trigger>
@@ -64,8 +88,28 @@
 							closeAndFocusTrigger(ids.trigger);
 						}}
 					>
-						<Check class={cn('mr-2 h-4 w-4', value !== estado.value && 'text-transparent')} />
-						{estado.label}
+						{#if estado.value === 'finalizado'}
+							<div
+								class="inline-flex items-center gap-x-2 rounded-full bg-green-100/60 px-3 py-1 text-green-500"
+							>
+								<Check class="h-4 w-4" />
+								<h2 class="text-sm font-normal">{estado.label}</h2>
+							</div>
+						{:else if estado.value === 'cancelado'}
+							<div
+								class="inline-flex items-center gap-x-2 rounded-full bg-red-100/60 px-3 py-1 text-red-500"
+							>
+								<X class="h-4 w-4" />
+								<h2 class="text-sm font-normal">{estado.label}</h2>
+							</div>
+						{:else if estado.value === 'aguardando'}
+							<div
+								class="inline-flex items-center gap-x-2 rounded-full bg-blue-100/60 px-3 py-1 text-blue-500"
+							>
+								<Clock class="h-4 w-4" />
+								<h2 class="text-sm font-normal">{estado.label}</h2>
+							</div>
+						{/if}
 					</Command.Item>
 				{/each}
 			</Command.Group>
