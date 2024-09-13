@@ -1,5 +1,5 @@
 <script lang="ts">
-	import logo from '$lib/img/logo-cookiesMo.png';
+	import logo from '$lib/img/logoCookiesMo.png';
 	import Button from './ui/button/button.svelte';
 	import { ClipboardList, Plus, ShoppingBasket, ShoppingCart } from 'lucide-svelte';
 	import { page } from '$app/stores';

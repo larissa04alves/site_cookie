@@ -14,7 +14,7 @@
 							<tr class="">
 								<th
 									scope="col"
-									class="flex px-4 py-3.5 text-left text-sm font-normal text-gray-500 rtl:text-right"
+									class=" flex px-4 py-3.5 text-left text-sm font-normal text-gray-500 rtl:text-right"
 								>
 									<div class="flex items-center gap-x-3">
 										<button class="flex items-center gap-x-2">
