@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	export let form: ActionData;
-	export let data: PageData;
+	// export let data: PageData;
 
 	console.log('TESTE DO FRONTEND', form?.teste[0]);
 </script>
