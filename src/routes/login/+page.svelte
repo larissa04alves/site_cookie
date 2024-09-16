@@ -7,7 +7,7 @@
 	import logoCookiesMo from '$lib/img/logoCookiesMo.png';
 </script>
 
-<div class="relative flex h-full w-full justify-center md:justify-end">
+<div class="relative flex h-screen w-full justify-center md:justify-end">
 	<img class=" absolute h-screen w-full md:hidden" src={loginMobile} alt="Mobile Background" />
 	<img class="absolute hidden h-screen w-full md:block" src={loginPage} alt="Desktop Background" />
 
@@ -22,7 +22,7 @@
 				<p class="text-xs text-zinc-700">Acesse sua conta para continuar</p>
 			</div>
 			<div class="flex flex-col items-center gap-4 md:w-full md:flex-row">
-				<Button class="h-11 w-full gap-2 bg-white text-black hover:text-white md:w-2/6">
+				<Button class="h-12 w-full gap-2 bg-white text-black hover:text-white md:w-2/6">
 					<img class="w-8" src={googleIcon} alt="Google" />
 					Faça login com o Google
 				</Button>
