@@ -10,10 +10,10 @@
 	import SelectPromo from '$lib/components/SelectPromo.svelte';
 	import { Plus } from 'lucide-svelte';
 
-	let selectPromos = ['']; // Inicialmente com uma instância vazia
+	let selectPromos = [''];
 
 	function addCookie() {
-		selectPromos = [...selectPromos, '']; // Adiciona uma nova instância vazia
+		selectPromos = [...selectPromos, ''];
 	}
 </script>
 
@@ -26,32 +26,64 @@
 			</Tabs.List>
 			<Tabs.Content value="novoProduto" class="h-screen">
 				<Card.Root>
-					<Card.Header>
-						<Card.Title>Adicionar novo produto</Card.Title>
-					</Card.Header>
-					<Card.Content class="space-y-2">
-						<div class="space-y-1">
-							<Label for="name">Nome do produto</Label>
-							<Input id="name" placeholder="Novo sabor" />
-						</div>
-						<div class="flex gap-6">
-							<div class="w-1/2 space-y-1">
-								<Label for="username">Valor</Label>
-								<Input id="username" placeholder="0,00" />
+					<form action="?/criarProduto" method="post">
+						<Card.Header>
+							<Card.Title>Adicionar novo produto</Card.Title>
+						</Card.Header>
+						<Card.Content class="space-y-2">
+							<div class="space-y-1">
+								<Label for="nomeProduto">Nome do produto</Label>
+								<Input
+									name="nomeProduto"
+									placeholder="Novo sabor"
+									autocomplete="off"
+									autocapitalize="none"
+									autocorrect="off"
+								/>
 							</div>
-							<div class="w-1/2 space-y-1">
-								<Label for="username">Estoque</Label>
-								<Input id="username" placeholder="0" />
+							<div class="flex gap-6">
+								<div class="w-1/2 space-y-1">
+									<Label for="valorProduto">Valor</Label>
+									<Input
+										name="valorProduto"
+										placeholder="0,00"
+										autocapitalize="none"
+										autocomplete="off"
+										autocorrect="off"
+									/>
+								</div>
+								<div class="w-1/2 space-y-1">
+									<Label for="estoque">Estoque</Label>
+									<Input
+										id="estoque"
+										name="estoque"
+										placeholder="0"
+										autocapitalize="none"
+										autocomplete="off"
+										autocorrect="off"
+									/>
+								</div>
 							</div>
-						</div>
-						<div class="space-y-1">
-							<Label for="name">Descrição</Label>
-							<Textarea id="name" placeholder="Descrição do produto" />
-						</div>
-					</Card.Content>
-					<Card.Footer>
-						<Button class="bg-brownCrayola hover:bg-brownNose">Salvar Produto</Button>
-					</Card.Footer>
+							<div class="space-y-1">
+								<Label for="descricao">Descrição</Label>
+								<Textarea
+									id="descricao"
+									name="descricao"
+									placeholder="Descrição do produto"
+									autocapitalize="none"
+									autocomplete="off"
+									autocorrect="off"
+								/>
+							</div>
+						</Card.Content>
+						<Card.Footer>
+							<Button
+								formaction="?/criarProduto"
+								type="submit"
+								class="bg-brownCrayola hover:bg-brownNose">Salvar Produto</Button
+							>
+						</Card.Footer>
+					</form>
 				</Card.Root>
 			</Tabs.Content>
 			<Tabs.Content value="promocao">
