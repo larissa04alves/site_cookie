@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
 	import { MinusCircle, PlusCircle } from 'lucide-svelte';
-	let count = 0;
+	export let count: number = 0;
+	export let inputName: string = "inputCount";
+	// let count = 0;
 	function increment() {
 		count++;
 	}
@@ -11,7 +13,7 @@
 	}
 </script>
 
-<form class="mx-auto max-w-xs font-montserrat">
+<!-- <form class="mx-auto max-w-xs font-montserrat"> -->
 	<div class="relative flex items-center">
 		<button
 			type="button"
@@ -22,12 +24,14 @@
 			<MinusCircle class=" text-gray-900 " />
 		</button>
 		<input
-			type="text"
-			id="counter-input"
+			type="number"
+			id="{inputName}"
+			name="{inputName}"
 			bind:value={count}
 			class="max-w-[2.5rem] flex-shrink-0 border-0 bg-transparent text-center text-sm font-normal text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
 			placeholder=""
 			required
+			min=0
 		/>
 		<button
 			type="button"
@@ -38,4 +42,4 @@
 			<PlusCircle class=" text-gray-900 " />
 		</button>
 	</div>
-</form>
+<!-- </form> -->

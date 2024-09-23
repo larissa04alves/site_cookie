@@ -1,5 +1,13 @@
 import db from '$lib/database/connectdb';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
+
+// A função load é executada automaticamente quando a página é carregada
+export const load: PageServerLoad = async () => {
+	// Pega os Produtos no banco de dados
+	const produtos = await db.query('SELECT * FROM Produto').then((res) => res.rows);
+
+	return { produtos };
+};
 
 export const actions: Actions = {
 	criarProduto: async ({ request }) => {
@@ -45,6 +53,15 @@ export const actions: Actions = {
 	excluirProduto: async ({ request }) => {
 		const data = await request.formData();
 		const codigo = data.get('codigo');
+
+		if(!codigo || codigo == '0'){
+			return {status: 400,
+				body: {
+					message: 'Erro, código do produto Inválido'
+				}
+			}
+		}
+
 		try {
 			await db.query('DELETE FROM produto WHERE id = $1', [codigo]);
 			return {
@@ -63,7 +80,42 @@ export const actions: Actions = {
 			};
 		}
 	},
+	editarEstoque: async ({ request }) => {
+		try {
+		  // Obtendo os dados do corpo da requisição
+		  const data = await request.formData();
+		  const codigo = data.get('codigo');
+		  const estoque = data.get('estoque');
 
+			console.log(codigo);
+			console.log(estoque);
+
+		  // Validando os dados recebidos
+		  if (!codigo || !estoque) {
+			return { status: 400,
+				body: {
+					message: 'Dados inválidos'
+				} 
+			};
+		  }
+	
+		  // Atualizando o banco de dados
+		  await db.query('UPDATE produto SET estoque = $1 WHERE codigo = $2', [estoque, codigo]);
+	
+		  return { status: 200,
+			body: {
+				message: 'Estoque atualizado com sucesso'
+			} 
+		};
+		  
+		} catch (error) {
+		  	return { status: 500,
+				body: {
+					message: 'Erro atualizando o estoque'
+				} 
+			};
+		}
+	  },
 	editarProduto: async ({ request }) => {
 		const data = await request.formData();
 		const codigo = data.get('codigo');
