@@ -6,6 +6,8 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const codigo = data.get('codigo');
 
+		console.log('codigo', codigo);
+
 		if (!codigo || codigo == '0') {
 			return {
 				status: 400,
@@ -52,7 +54,7 @@ export const actions: Actions = {
 		}
 		try {
 			await db.query(
-				'UPDATE finance SET nome = $1, valor = $2, estoque = $4, descricao = $5 WHERE codigo = $7',
+				'UPDATE produto SET nome = $1, valor = $2, estoque = $3, descricao = $4 WHERE codigo = $5',
 				[nomeProduto, valorProduto, estoque, descricao, codigo]
 			);
 			return {
@@ -76,8 +78,8 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const codigo = data.get('codigo');
 		const estoque = data.get('estoque');
-		console.log(estoque);
-		console.log(codigo);
+		// console.log(estoque);
+		// console.log(codigo);
 
 		if (!codigo || !estoque) {
 			return {
