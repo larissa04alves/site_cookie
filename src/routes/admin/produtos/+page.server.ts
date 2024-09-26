@@ -43,6 +43,7 @@ export const actions: Actions = {
 		const valorProduto = data.get('valorProduto');
 		const estoque = data.get('estoque');
 		const descricao = data.get('descricao');
+		const arquivo = data.get('arquivo') as File;
 
 		if (!nomeProduto || !valorProduto || !estoque || !descricao) {
 			return {
@@ -52,10 +53,30 @@ export const actions: Actions = {
 				}
 			};
 		}
+
+		const maxSize = 1 * 1024 * 1024;
+		if (arquivo.size > maxSize) {
+			return {
+				status: 400,
+				body: {
+					message: 'Imagem excede o tamanho máximo de 1 MB'
+				}
+			};
+		}
+
+		// Converte a imagem para base64
+		const arrayBuffer = await arquivo.arrayBuffer();
+		const buffer = Buffer.from(arrayBuffer);
+		const base64Image = buffer.toString('base64');
+
+		// Monta o caminho do arquivo
+		const fileExtension = arquivo.name.split('.').pop();
+		const fileBase64 = `data:image/${fileExtension};base64,${base64Image}`;
+
 		try {
 			await db.query(
-				'UPDATE produto SET nome = $1, valor = $2, estoque = $3, descricao = $4 WHERE codigo = $5',
-				[nomeProduto, valorProduto, estoque, descricao, codigo]
+				'UPDATE produto SET nome = $1, valor = $2, estoque = $3, descricao = $4, descricao= $5 WHERE codigo = $6',
+				[nomeProduto, valorProduto, estoque, descricao, fileBase64, codigo]
 			);
 			return {
 				status: 200,

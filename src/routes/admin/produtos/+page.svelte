@@ -3,10 +3,9 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Pencil, Trash2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import SheetPedidos from '$lib/components/SheetPedidos.svelte';
+	import SheetProdutos from '$lib/components/SheetProdutos.svelte';
 	import { toast } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
 
 	let cookie: Array<any> = [];
 
@@ -31,7 +30,6 @@
 			action="?/editarQuantidade"
 			class="mx-auto flex w-full max-w-xs flex-col items-center justify-center"
 			use:enhance={({ formElement, formData, action, cancel, submitter }) => {
-				// Obtenha a quantidade atualizada do formData
 				const quantidadeAtualizada = Number(formData.get('estoque'));
 
 				return async ({ result, update }) => {
@@ -39,7 +37,6 @@
 						toast.success('Estoque atualizado!', {
 							description: 'O estoque foi atualizado com sucesso.'
 						});
-						// Atualize o estoque do produto com a quantidade atualizada
 						produto.estoque = quantidadeAtualizada;
 					} else {
 						toast.error('Erro ao atualizar estoque!', {
@@ -51,7 +48,7 @@
 		>
 			<div
 				class="h-52 w-full rounded-lg bg-gray-300 bg-cover bg-center object-fill shadow-md"
-				style="background-image: url('https://picsum.photos/330/200?random=1')"
+				style="background-image: url({produto.arquivo});"
 			></div>
 			<div class="-mt-10 w-56 overflow-hidden rounded-lg bg-white shadow-lg md:w-64">
 				<h3 class="py-2 text-center font-bold uppercase text-gray-800">{produto.nome}</h3>
@@ -76,14 +73,12 @@
 						action="?/excluirProduto"
 						use:enhance={() => {
 							return async ({ result, update }) => {
-								// `result` is an `ActionResult` object
 								console.log('deletado', result);
 
 								if (result.status === 200) {
 									toast.success('Produto deletado!', {
 										description: 'O produto foi deletado com sucesso.'
 									});
-									// Remover o produto deletado da lista 'cookie'
 									cookie = cookie.filter((prod) => prod.codigo !== produto.codigo);
 								} else {
 									toast.error('Erro ao deletar produto!', {
@@ -93,7 +88,7 @@
 							};
 						}}
 					>
-						<SheetPedidos />
+						<SheetProdutos {produto} />
 						<Button
 							variant="ghost"
 							formaction="?/excluirProduto"

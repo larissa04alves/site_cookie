@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import * as Table from '$lib/components/ui/table';
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
@@ -9,12 +8,27 @@
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import SelectPromo from '$lib/components/SelectPromo.svelte';
 	import { Plus } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 
 	let selectPromos = [''];
+	let cookie: Array<any> = [];
 
 	function addCookie() {
 		selectPromos = [...selectPromos, ''];
 	}
+
+	onMount(async () => {
+		try {
+			const res = await fetch('/api/listarProdutos');
+			if (res.ok) {
+				cookie = await res.json();
+			} else {
+				console.error('Erro ao carregar os produtos');
+			}
+		} catch (error) {
+			console.error('Erro de rede:', error);
+		}
+	});
 </script>
 
 <div class="flex h-full w-full gap-32 px-20 py-32">
@@ -26,7 +40,7 @@
 			</Tabs.List>
 			<Tabs.Content value="novoProduto" class="h-screen">
 				<Card.Root>
-					<form action="?/criarProduto" method="post">
+					<form action="?/criarProduto" method="post" enctype="multipart/form-data">
 						<Card.Header>
 							<Card.Title>Adicionar novo produto</Card.Title>
 						</Card.Header>
@@ -75,6 +89,17 @@
 									autocorrect="off"
 								/>
 							</div>
+							<div>
+								<label for="image" class=" text-sm font-medium">Adicionar Imagem</label>
+
+								<input
+									type="file"
+									name="arquivo"
+									accept=".jpg, .jpeg, .png, .webp"
+									class="mt-2 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 placeholder-gray-400/70 file:rounded-full file:border-none file:bg-gray-200 file:px-4 file:py-1 file:text-sm file:text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+									required
+								/>
+							</div>
 						</Card.Content>
 						<Card.Footer>
 							<Button
@@ -120,6 +145,14 @@
 							<Label for="name">Descrição</Label>
 							<Textarea id="name" placeholder="Descrição do produto" />
 						</div>
+						<div>
+							<label for="image" class=" text-sm font-medium">Adicionar Imagem</label>
+
+							<input
+								type="file"
+								class="mt-2 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 placeholder-gray-400/70 file:rounded-full file:border-none file:bg-gray-200 file:px-4 file:py-1 file:text-sm file:text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-500 dark:file:bg-gray-800 dark:file:text-gray-200 dark:focus:border-blue-300"
+							/>
+						</div>
 					</Card.Content>
 					<Card.Footer>
 						<Button class="bg-brownCrayola hover:bg-brownNose">Salvar promoção</Button>
@@ -129,7 +162,7 @@
 		</Tabs.Root>
 	</div>
 
-	<div class="w-1/2">
+	<form class="w-1/2">
 		<Table.Root>
 			<Table.Caption>Estoque disponível</Table.Caption>
 			<Table.Header>
@@ -139,13 +172,15 @@
 					<Table.Head>Valor</Table.Head>
 				</Table.Row>
 			</Table.Header>
-			<Table.Body>
-				<Table.Row>
-					<Table.Cell class="font-medium">Cookie de chocolate</Table.Cell>
-					<Table.Cell>15 und</Table.Cell>
-					<Table.Cell>R$ 8.90</Table.Cell>
-				</Table.Row>
-			</Table.Body>
+			{#each cookie as produto}
+				<Table.Body>
+					<Table.Row>
+						<Table.Cell class="font-medium">{produto.nome}</Table.Cell>
+						<Table.Cell>{produto.estoque}</Table.Cell>
+						<Table.Cell>{produto.valor}</Table.Cell>
+					</Table.Row>
+				</Table.Body>
+			{/each}
 		</Table.Root>
-	</div>
+	</form>
 </div>
