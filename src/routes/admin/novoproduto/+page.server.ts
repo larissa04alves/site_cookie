@@ -52,5 +52,56 @@ export const actions: Actions = {
 				message: 'Produto criado com sucesso'
 			}
 		};
+	},
+
+	criarPromocao: async ({ request }) => {
+		const data = await request.formData();
+
+		const nomePromo = data.get('nomePromo');
+		const valorPromo = data.get('valorPromo');
+		const estoquePromo = data.get('estoquePromo');
+		const descricaoPromo = data.get('descricaoPromo');
+		const dataInicio = data.get('dataInicio');
+		const dataFim = data.get('dataFim');
+		const arquivoPromo = data.get('arquivoPromo') as File;
+
+		if (!nomePromo || !valorPromo || !estoquePromo || !descricaoPromo || !dataInicio || !dataFim) {
+			return {
+				status: 400,
+				body: {
+					message: 'Campos obrigatórios não preenchidos'
+				}
+			};
+		}
+
+		const maxSize = 1 * 1024 * 1024;
+		if (arquivoPromo.size > maxSize) {
+			return {
+				status: 400,
+				body: {
+					message: 'Imagem excede o tamanho máximo de 1 MB'
+				}
+			};
+		}
+
+		// Converte a imagem para base64
+		const arrayBuffer = await arquivoPromo.arrayBuffer();
+		const buffer = Buffer.from(arrayBuffer);
+		const base64Image = buffer.toString('base64');
+
+		// Monta o caminho do arquivo
+		const fileExtension = arquivoPromo.name.split('.').pop();
+		const fileBase64 = `data:image/${fileExtension};base64,${base64Image}`;
+
+		await db.query(
+			'INSERT INTO promocao (nome, valor, estoque, descricao, data_inicio, data_fim, arquivo) VALUES ($1, $2, $3, $4, $5,$6,$7)',
+			[nomePromo, valorPromo, estoquePromo, descricaoPromo, dataInicio, dataFim, fileBase64]
+		);
+		return {
+			status: 200,
+			body: {
+				message: 'Promoção criada com sucesso'
+			}
+		};
 	}
 };

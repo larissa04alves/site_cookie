@@ -9,6 +9,8 @@
 	import SelectPromo from '$lib/components/SelectPromo.svelte';
 	import { Plus } from 'lucide-svelte';
 	import { onMount } from 'svelte';
+	import DatepickerInicio from '$lib/components/DatePicker-inicio.svelte';
+	import DatepickerFinal from '$lib/components/DatePicker-final.svelte';
 
 	let selectPromos = [''];
 	let cookie: Array<any> = [];
@@ -113,50 +115,74 @@
 			</Tabs.Content>
 			<Tabs.Content value="promocao">
 				<Card.Root>
-					<Card.Header>
-						<Card.Title>Criar promoção</Card.Title>
-					</Card.Header>
-					<Card.Content class="space-y-2">
-						<Label for="current">Selecione o produto desejado</Label>
-						<div class="flex h-full w-full justify-start gap-6">
-							<div class="flex w-2/3 flex-col gap-2">
-								{#each selectPromos as _, index}
-									<SelectPromo />
-								{/each}
+					<form action="?/criarPromocao" method="post" enctype="multipart/form-data">
+						<Card.Header>
+							<Card.Title>Criar promoção</Card.Title>
+						</Card.Header>
+						<Card.Content class="space-y-2">
+							<Label for="current">Selecione o produto desejado</Label>
+							<div class="flex h-full w-full justify-start gap-6">
+								<div class="flex w-2/3 flex-col gap-2">
+									{#each selectPromos as _, index}
+										<SelectPromo />
+									{/each}
+								</div>
+								<Button
+									class=" w-1/3 gap-2 bg-seashell text-xs text-black hover:bg-seashell"
+									on:click={addCookie}
+								>
+									<Plus class="w-4" />Adicionar Cookie
+								</Button>
 							</div>
-							<Button
-								class=" w-1/3 gap-2 bg-seashell text-xs text-black hover:bg-seashell"
-								on:click={addCookie}
-							>
-								<Plus class="w-4" />Adicionar Cookie
-							</Button>
-						</div>
-						<div class="flex gap-8">
-							<div class="w-1/2 space-y-1">
-								<Label for="username">Valor promocional</Label>
-								<Input id="username" placeholder="0,00" />
+							<div class="flex gap-8">
+								<div class="w-1/2 space-y-1">
+									<Label for="username">Valor promocional</Label>
+									<Input
+										name="valorPromo"
+										placeholder="0,00"
+										autocapitalize="none"
+										autocomplete="off"
+										autocorrect="off"
+									/>
+								</div>
+								<div class="w-1/2 space-y-1">
+									<Label for="username">Quantidade</Label>
+									<Input
+										name="estoquePromo"
+										placeholder="0"
+										autocapitalize="none"
+										autocomplete="off"
+										autocorrect="off"
+									/>
+								</div>
 							</div>
-							<div class="w-1/2 space-y-1">
-								<Label for="username">Quantidade</Label>
-								<Input id="username" placeholder="0" />
+							<div class="flex gap-8">
+								<div class="w-1/2 space-y-1">
+									<Label for="username">Data de incício da promoção</Label>
+									<DatepickerInicio />
+								</div>
+								<div class="w-1/2 space-y-1">
+									<Label for="username">Data de final da promoção</Label>
+									<DatepickerFinal />
+								</div>
 							</div>
-						</div>
-						<div class="space-y-1">
-							<Label for="name">Descrição</Label>
-							<Textarea id="name" placeholder="Descrição do produto" />
-						</div>
-						<div>
-							<label for="image" class=" text-sm font-medium">Adicionar Imagem</label>
+							<div class="space-y-1">
+								<Label for="name">Descrição</Label>
+								<Textarea id="name" placeholder="Descrição do produto" />
+							</div>
+							<div>
+								<label for="image" class=" text-sm font-medium">Adicionar Imagem</label>
 
-							<input
-								type="file"
-								class="mt-2 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 placeholder-gray-400/70 file:rounded-full file:border-none file:bg-gray-200 file:px-4 file:py-1 file:text-sm file:text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-500 dark:file:bg-gray-800 dark:file:text-gray-200 dark:focus:border-blue-300"
-							/>
-						</div>
-					</Card.Content>
-					<Card.Footer>
-						<Button class="bg-brownCrayola hover:bg-brownNose">Salvar promoção</Button>
-					</Card.Footer>
+								<input
+									type="file"
+									class="mt-2 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 placeholder-gray-400/70 file:rounded-full file:border-none file:bg-gray-200 file:px-4 file:py-1 file:text-sm file:text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-500 dark:file:bg-gray-800 dark:file:text-gray-200 dark:focus:border-blue-300"
+								/>
+							</div>
+						</Card.Content>
+						<Card.Footer>
+							<Button class="bg-brownCrayola hover:bg-brownNose">Salvar promoção</Button>
+						</Card.Footer>
+					</form>
 				</Card.Root>
 			</Tabs.Content>
 		</Tabs.Root>
