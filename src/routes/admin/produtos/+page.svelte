@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CounterInput from '$lib/components/CounterInput.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { Pencil, Trash2 } from 'lucide-svelte';
+	import { Trash2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import SheetProdutos from '$lib/components/SheetProdutos.svelte';
 	import { toast } from 'svelte-sonner';
@@ -29,10 +29,10 @@
 			method="post"
 			action="?/editarQuantidade"
 			class="mx-auto flex w-full max-w-xs flex-col items-center justify-center"
-			use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+			use:enhance={({ formData }) => {
 				const quantidadeAtualizada = Number(formData.get('estoque'));
 
-				return async ({ result, update }) => {
+				return async ({ result }) => {
 					if (result.status === 200) {
 						toast.success('Estoque atualizado!', {
 							description: 'O estoque foi atualizado com sucesso.'
@@ -88,15 +88,19 @@
 							};
 						}}
 					>
-						<SheetProdutos {produto} />
-						<Button
-							variant="ghost"
-							formaction="?/excluirProduto"
-							type="submit"
-							class="px-0 text-brownCrayola hover:bg-transparent hover:text-brownNose"
-						>
-							<Trash2 size="20" />
-						</Button>
+						<div>
+							<Button variant="ghost" class="px-0 py-0 hover:bg-transparent">
+								<SheetProdutos {produto} />
+							</Button>
+							<Button
+								variant="ghost"
+								formaction="?/excluirProduto"
+								type="submit"
+								class="px-0 text-brownCrayola hover:bg-transparent hover:text-brownNose"
+							>
+								<Trash2 size="20" />
+							</Button>
+						</div>
 						<input type="number" name="codigo" value={produto.codigo} class="hidden" />
 					</form>
 				</div>

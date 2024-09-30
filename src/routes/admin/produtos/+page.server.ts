@@ -45,6 +45,8 @@ export const actions: Actions = {
 		const descricao = data.get('descricao');
 		const arquivo = data.get('arquivo') as File;
 
+		console.log(nomeProduto);
+
 		if (!nomeProduto || !valorProduto || !estoque || !descricao) {
 			return {
 				status: 400,
@@ -75,7 +77,7 @@ export const actions: Actions = {
 
 		try {
 			await db.query(
-				'UPDATE produto SET nome = $1, valor = $2, estoque = $3, descricao = $4, descricao= $5 WHERE codigo = $6',
+				'UPDATE produto SET nome = $1, valor = $2, estoque = $3, descricao = $4, arquivo = $5 WHERE codigo = $6',
 				[nomeProduto, valorProduto, estoque, descricao, fileBase64, codigo]
 			);
 			return {
