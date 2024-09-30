@@ -22,11 +22,17 @@
 				<p class="text-xs text-zinc-700">Acesse sua conta para continuar</p>
 			</div>
 			<div class="flex flex-col items-center gap-4 md:w-full md:flex-row">
-				<Button class="h-12 w-full gap-2 bg-white text-black hover:text-white md:w-2/6">
+				<Button
+					href="/login/google"
+					class="h-12 w-full gap-2 bg-white text-black hover:text-white md:w-2/6"
+				>
 					<img class="w-8" src={googleIcon} alt="Google" />
 					Faça login com o Google
 				</Button>
-				<Button class="h-12 gap-2 bg-white text-black hover:text-white md:h-11 md:w-2/6">
+				<Button
+					href="/login/discord"
+					class="h-12 gap-2 bg-white text-black hover:text-white md:h-11 md:w-2/6"
+				>
 					<img class="w-8" src={facebookIcon} alt="Facebook" />
 					Faça login com o Facebook
 				</Button>

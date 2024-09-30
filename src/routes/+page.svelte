@@ -1,12 +1,9 @@
 <script lang="ts">
-	import type { PageData, ActionData } from './$types';
-	export let form: ActionData;
-	// export let data: PageData;
-
-	console.log('TESTE DO FRONTEND', form?.teste[0]);
 </script>
 
-<form action="?/teste" method="post">
-	<button type="submit">Teste consulta</button>
-</form>
-<h1 class="font-cormorant">{form?.teste[0].name}</h1>
+<div
+	class="flex h-screen w-full flex-col items-center justify-center font-cormorant text-4xl font-bold text-brownCrayola"
+>
+	<h1>Va para:</h1>
+	<a href="/login" class="hover:underline">/login</a>
+</div>
