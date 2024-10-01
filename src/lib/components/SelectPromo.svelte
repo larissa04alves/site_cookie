@@ -1,13 +1,21 @@
 <script lang="ts">
 	import * as Select from '$lib/components/ui/select/index.js';
+	import { onMount } from 'svelte';
 
-	const fruits = [
-		{ value: 'apple', label: 'Cookie de Chocolate' },
-		{ value: 'banana', label: 'Cookie de nutella' },
-		{ value: 'blueberry', label: 'Cookie de Chocolate Branco' },
-		{ value: 'grapes', label: 'Cookie de Prestígio' },
-		{ value: 'pineapple', label: 'Cookie de M&M' }
-	];
+	let cookie: Array<any> = [];
+
+	onMount(async () => {
+		try {
+			const res = await fetch('/api/listarProdutos');
+			if (res.ok) {
+				cookie = await res.json();
+			} else {
+				console.error('Erro ao carregar os produtos');
+			}
+		} catch (error) {
+			console.error('Erro de rede:', error);
+		}
+	});
 </script>
 
 <Select.Root portal={null}>
@@ -17,10 +25,10 @@
 	<Select.Content>
 		<Select.Group>
 			<Select.Label>Sabores</Select.Label>
-			{#each fruits as fruit}
-				<Select.Item value={fruit.value} label={fruit.label}>{fruit.label}</Select.Item>
+			{#each cookie as produto}
+				<Select.Item value={produto.nome} label={produto.nome}>{produto.nome}</Select.Item>
 			{/each}
 		</Select.Group>
 	</Select.Content>
-	<Select.Input name="favoriteFruit" />
+	<Select.Input name="nomePromo" />
 </Select.Root>

@@ -29,6 +29,7 @@
 		</Sheet.Header>
 		<form action="?/editarProduto" method="post" enctype="multipart/form-data">
 			<div class="flex w-full flex-col items-start justify-start gap-3">
+				<input type="number" name="codigo" value={produto.codigo} class="hidden" />
 				<div class="flex w-5/6 flex-col items-start gap-2">
 					<Label for="name" class="text-right">Nome:</Label>
 					<Input
@@ -65,20 +66,15 @@
 						name="arquivo"
 						accept=".jpg, .jpeg, .png, .webp"
 						class="mt-2 block w-full rounded-lg border border-gray-200 bg-transparent px-3 py-2 text-sm text-gray-600 placeholder-gray-400/70 file:rounded-full file:border-none file:bg-gray-200 file:px-4 file:py-1 file:text-sm file:text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+						bind:value={arquivo}
 					/>
 				</div>
 				<Sheet.Footer>
 					<Sheet.Close asChild let:builder>
-						<Button
-							builders={[builder]}
-							type="submit"
-							formaction="?/editarProduto"
-							class="bg-brownCrayola hover:bg-brownNose">Salvar</Button
-						>
+						<Button type="submit" class="bg-brownCrayola hover:bg-brownNose">Salvar</Button>
 					</Sheet.Close>
 				</Sheet.Footer>
 			</div>
-			<input type="number" name="codigo" value={produto.codigo} class="hidden" />
 		</form>
 	</Sheet.Content>
 </Sheet.Root>

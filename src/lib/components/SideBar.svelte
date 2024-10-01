@@ -25,6 +25,14 @@
 
 		<div class="flex w-[90%] flex-col gap-4">
 			<Button
+				href="/admin/novoproduto"
+				variant="ghost"
+				class="flex justify-start gap-2 rounded-xl py-6 hover:bg-brownCrayola hover:text-white {$page
+					.url.pathname === '/admin/novoproduto'
+					? 'bg-brownCrayola text-white'
+					: ''}"><Plus size="45" />Novo Produto</Button
+			>
+			<Button
 				href="/admin/produtos"
 				variant="ghost"
 				class="flex justify-start gap-2 rounded-xl py-6 hover:bg-brownCrayola hover:text-white {$page
@@ -39,14 +47,6 @@
 					.url.pathname === '/admin/pedidos'
 					? 'bg-brownCrayola text-white'
 					: ''}"><ShoppingCart />Pedidos</Button
-			>
-			<Button
-				href="/admin/novoproduto"
-				variant="ghost"
-				class="flex justify-start gap-2 rounded-xl py-6 hover:bg-brownCrayola hover:text-white {$page
-					.url.pathname === '/admin/novoproduto'
-					? 'bg-brownCrayola text-white'
-					: ''}"><Plus size="45" />Novo Produto</Button
 			>
 		</div>
 	</div>

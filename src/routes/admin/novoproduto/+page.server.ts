@@ -65,14 +65,17 @@ export const actions: Actions = {
 		const dataFim = data.get('dataFim');
 		const arquivoPromo = data.get('arquivoPromo') as File;
 
-		if (!nomePromo || !valorPromo || !estoquePromo || !descricaoPromo || !dataInicio || !dataFim) {
-			return {
-				status: 400,
-				body: {
-					message: 'Campos obrigatórios não preenchidos'
-				}
-			};
-		}
+		console.log(data);
+		console.log(dataInicio, dataFim);
+
+		// if (!nomePromo || !valorPromo || !estoquePromo || !descricaoPromo || !dataInicio || !dataFim) {
+		// 	return {
+		// 		status: 400,
+		// 		body: {
+		// 			message: 'Campos obrigatórios não preenchidos'
+		// 		}
+		// 	};
+		// }
 
 		const maxSize = 1 * 1024 * 1024;
 		if (arquivoPromo.size > maxSize) {

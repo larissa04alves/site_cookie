@@ -69,7 +69,7 @@
 									/>
 								</div>
 								<div class="w-1/2 space-y-1">
-									<Label for="estoque">Estoque</Label>
+									<Label for="estoque">Estoque disponível</Label>
 									<Input
 										id="estoque"
 										name="estoque"
@@ -112,6 +112,7 @@
 						</Card.Footer>
 					</form>
 				</Card.Root>
+				<!-- Criar promocão -->
 			</Tabs.Content>
 			<Tabs.Content value="promocao">
 				<Card.Root>
@@ -136,8 +137,9 @@
 							</div>
 							<div class="flex gap-8">
 								<div class="w-1/2 space-y-1">
-									<Label for="username">Valor promocional</Label>
+									<Label for="valor">Valor promocional</Label>
 									<Input
+										id="valorPromo"
 										name="valorPromo"
 										placeholder="0,00"
 										autocapitalize="none"
@@ -146,8 +148,9 @@
 									/>
 								</div>
 								<div class="w-1/2 space-y-1">
-									<Label for="username">Quantidade</Label>
+									<Label for="estoque">Estoque disponível</Label>
 									<Input
+										id="estoquePromo"
 										name="estoquePromo"
 										placeholder="0"
 										autocapitalize="none"
@@ -158,11 +161,9 @@
 							</div>
 							<div class="flex gap-8">
 								<div class="w-1/2 space-y-1">
-									<Label for="username">Data de incício da promoção</Label>
 									<DatepickerInicio />
 								</div>
 								<div class="w-1/2 space-y-1">
-									<Label for="username">Data de final da promoção</Label>
 									<DatepickerFinal />
 								</div>
 							</div>
@@ -175,12 +176,19 @@
 
 								<input
 									type="file"
+									name="arquivo"
+									accept=".jpg, .jpeg, .png, .webp"
 									class="mt-2 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 placeholder-gray-400/70 file:rounded-full file:border-none file:bg-gray-200 file:px-4 file:py-1 file:text-sm file:text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-500 dark:file:bg-gray-800 dark:file:text-gray-200 dark:focus:border-blue-300"
+									required
 								/>
 							</div>
 						</Card.Content>
 						<Card.Footer>
-							<Button class="bg-brownCrayola hover:bg-brownNose">Salvar promoção</Button>
+							<Button
+								formaction="?/criarPromocao"
+								type="submit"
+								class="bg-brownCrayola hover:bg-brownNose">Salvar promoção</Button
+							>
 						</Card.Footer>
 					</form>
 				</Card.Root>

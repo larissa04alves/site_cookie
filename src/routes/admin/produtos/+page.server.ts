@@ -41,13 +41,12 @@ export const actions: Actions = {
 		const codigo = data.get('codigo');
 		const nomeProduto = data.get('nomeProduto');
 		const valorProduto = data.get('valorProduto');
-		const estoque = data.get('estoque');
 		const descricao = data.get('descricao');
 		const arquivo = data.get('arquivo') as File;
 
-		console.log(nomeProduto);
+		console.log('Recebido para edição:', { codigo, nomeProduto, valorProduto, descricao });
 
-		if (!nomeProduto || !valorProduto || !estoque || !descricao) {
+		if (!nomeProduto || !valorProduto || !descricao) {
 			return {
 				status: 400,
 				body: {
@@ -56,30 +55,51 @@ export const actions: Actions = {
 			};
 		}
 
-		const maxSize = 1 * 1024 * 1024;
-		if (arquivo.size > maxSize) {
-			return {
-				status: 400,
-				body: {
-					message: 'Imagem excede o tamanho máximo de 1 MB'
-				}
-			};
+		let fileBase64 = null;
+
+		// Verifica se o arquivo foi enviado
+		if (arquivo && arquivo.size > 0) {
+			const maxSize = 1 * 1024 * 1024;
+			if (arquivo.size > maxSize) {
+				return {
+					status: 400,
+					body: {
+						message: 'Imagem excede o tamanho máximo de 1 MB'
+					}
+				};
+			}
+
+			// Converte a imagem para base64
+			const arrayBuffer = await arquivo.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
+			const base64Image = buffer.toString('base64');
+
+			// Monta o caminho do arquivo
+			const fileExtension = arquivo.name.split('.').pop();
+			fileBase64 = `data:image/${fileExtension};base64,${base64Image}`;
+		} else {
+			// Se o arquivo não foi enviado, busca a imagem existente
+			const existingImage = await db.query('SELECT arquivo FROM produto WHERE codigo = $1', [
+				codigo
+			]);
+			if (existingImage.rows.length > 0) {
+				fileBase64 = existingImage.rows[0].arquivo;
+			} else {
+				return {
+					status: 404,
+					body: {
+						message: 'Produto não encontrado'
+					}
+				};
+			}
 		}
-
-		// Converte a imagem para base64
-		const arrayBuffer = await arquivo.arrayBuffer();
-		const buffer = Buffer.from(arrayBuffer);
-		const base64Image = buffer.toString('base64');
-
-		// Monta o caminho do arquivo
-		const fileExtension = arquivo.name.split('.').pop();
-		const fileBase64 = `data:image/${fileExtension};base64,${base64Image}`;
 
 		try {
 			await db.query(
-				'UPDATE produto SET nome = $1, valor = $2, estoque = $3, descricao = $4, arquivo = $5 WHERE codigo = $6',
-				[nomeProduto, valorProduto, estoque, descricao, fileBase64, codigo]
+				'UPDATE produto SET nome = $1, valor = $2, descricao = $3, arquivo = $4 WHERE codigo = $5',
+				[nomeProduto, valorProduto, descricao, fileBase64, codigo]
 			);
+
 			return {
 				status: 200,
 				body: {
