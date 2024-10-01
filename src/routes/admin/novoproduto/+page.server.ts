@@ -11,7 +11,7 @@ export const actions: Actions = {
 		const descricao = data.get('descricao');
 		const arquivo = data.get('arquivo') as File; // Captura o arquivo de imagem
 
-		if (!nomeProduto || !valorProduto || !estoque || !descricao) {
+		if (!nomeProduto || !valorProduto || !estoque || !descricao || !arquivo) {
 			return {
 				status: 400,
 				body: {
@@ -65,17 +65,25 @@ export const actions: Actions = {
 		const dataFim = data.get('dataFim');
 		const arquivoPromo = data.get('arquivoPromo') as File;
 
-		console.log(data);
-		console.log(dataInicio, dataFim);
+		// Log the form data keys to verify field names
+		console.log([...data.keys()]);
 
-		// if (!nomePromo || !valorPromo || !estoquePromo || !descricaoPromo || !dataInicio || !dataFim) {
-		// 	return {
-		// 		status: 400,
-		// 		body: {
-		// 			message: 'Campos obrigatórios não preenchidos'
-		// 		}
-		// 	};
-		// }
+		if (
+			!nomePromo ||
+			!valorPromo ||
+			!estoquePromo ||
+			!descricaoPromo ||
+			!dataInicio ||
+			!dataFim ||
+			!arquivoPromo
+		) {
+			return {
+				status: 400,
+				body: {
+					message: 'Campos obrigatórios não preenchidos'
+				}
+			};
+		}
 
 		const maxSize = 1 * 1024 * 1024;
 		if (arquivoPromo.size > maxSize) {
@@ -97,7 +105,7 @@ export const actions: Actions = {
 		const fileBase64 = `data:image/${fileExtension};base64,${base64Image}`;
 
 		await db.query(
-			'INSERT INTO promocao (nome, valor, estoque, descricao, data_inicio, data_fim, arquivo) VALUES ($1, $2, $3, $4, $5,$6,$7)',
+			'INSERT INTO promocao (nome, valor, estoque, descricao, data_inicio, data_fim, arquivo) VALUES ($1, $2, $3, $4, $5, $6, $7)',
 			[nomePromo, valorPromo, estoquePromo, descricaoPromo, dataInicio, dataFim, fileBase64]
 		);
 		return {
