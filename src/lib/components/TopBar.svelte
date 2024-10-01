@@ -25,7 +25,7 @@
 			<DropdownMenu.Group>
 				<DropdownMenu.Label class="flex items-center gap-2 p-0"
 					><Button
-						href="/login"
+						href="/logout"
 						variant="ghost"
 						class="w-full hover:bg-brownCrayola hover:text-white"><LogOut /> Sair</Button
 					></DropdownMenu.Label

@@ -8,8 +8,8 @@
 	<Sidebar />
 	<TopBar />
 
-	<div class="flex h-full w-full">
-		<div class="w-[15%]">teste</div>
+	<div class="flex h-full w-full pt-[4.5rem]">
+		<div class="w-[16%]">Espaco sidebar</div>
 		<div class="w-[85%]">
 			<slot></slot>
 		</div>
