@@ -30,5 +30,5 @@
 			{/each}
 		</Select.Group>
 	</Select.Content>
-	<Select.Input name="nomePromo" />
+	<Select.Input name="nomeCookie" />
 </Select.Root>

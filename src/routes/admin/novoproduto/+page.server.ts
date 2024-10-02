@@ -58,6 +58,7 @@ export const actions: Actions = {
 		const data = await request.formData();
 
 		const nomePromo = data.get('nomePromo');
+		const nomeCookie = data.get('nomeCookie');
 		const valorPromo = data.get('valorPromo');
 		const estoquePromo = data.get('estoquePromo');
 		const descricaoPromo = data.get('descricaoPromo');
@@ -67,23 +68,24 @@ export const actions: Actions = {
 
 		// Log the form data keys to verify field names
 		console.log([...data.keys()]);
+		console.log('promocao', data);
 
-		if (
-			!nomePromo ||
-			!valorPromo ||
-			!estoquePromo ||
-			!descricaoPromo ||
-			!dataInicio ||
-			!dataFim ||
-			!arquivoPromo
-		) {
-			return {
-				status: 400,
-				body: {
-					message: 'Campos obrigatórios não preenchidos'
-				}
-			};
-		}
+		// if (
+		// 	!nomePromo ||
+		// 	!valorPromo ||
+		// 	!estoquePromo ||
+		// 	!descricaoPromo ||
+		// 	!dataInicio ||
+		// 	!dataFim ||
+		// 	!arquivoPromo
+		// ) {
+		// 	return {
+		// 		status: 400,
+		// 		body: {
+		// 			message: 'Campos obrigatórios não preenchidos'
+		// 		}
+		// 	};
+		// }
 
 		const maxSize = 1 * 1024 * 1024;
 		if (arquivoPromo.size > maxSize) {
@@ -105,8 +107,17 @@ export const actions: Actions = {
 		const fileBase64 = `data:image/${fileExtension};base64,${base64Image}`;
 
 		await db.query(
-			'INSERT INTO promocao (nome, valor, estoque, descricao, data_inicio, data_fim, arquivo) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-			[nomePromo, valorPromo, estoquePromo, descricaoPromo, dataInicio, dataFim, fileBase64]
+			'INSERT INTO promocao (nome, valor, estoque, descricao, data_inicio, data_fim, arquivo, nomeCookie) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+			[
+				nomePromo,
+				valorPromo,
+				estoquePromo,
+				descricaoPromo,
+				dataInicio,
+				dataFim,
+				fileBase64,
+				nomeCookie
+			]
 		);
 		return {
 			status: 200,

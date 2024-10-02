@@ -121,6 +121,17 @@
 							<Card.Title>Criar promoção</Card.Title>
 						</Card.Header>
 						<Card.Content class="space-y-2">
+							<div class="w-full space-y-1">
+								<Label for="valor">Nome da promoção</Label>
+								<Input
+									id="nomePromo"
+									name="nomePromo"
+									placeholder="2 cookies nutella + cookie chocolate"
+									autocapitalize="none"
+									autocomplete="off"
+									autocorrect="off"
+								/>
+							</div>
 							<Label for="current">Selecione o produto desejado</Label>
 							<div class="flex h-full w-full justify-start gap-6">
 								<div class="flex w-2/3 flex-col gap-2">
@@ -165,7 +176,11 @@
 							</div>
 							<div class="space-y-1">
 								<Label for="name">Descrição</Label>
-								<Textarea id="name" placeholder="Descrição do produto" />
+								<Textarea
+									id="descricaoPromo"
+									name="descricaoPromo"
+									placeholder="Descrição do produto"
+								/>
 							</div>
 							<div>
 								<label for="image" class=" text-sm font-medium">Adicionar Imagem</label>

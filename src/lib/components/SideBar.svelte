@@ -1,20 +1,8 @@
 <script lang="ts">
 	import logo from '$lib/img/logoCookiesMo.png';
 	import Button from './ui/button/button.svelte';
-	import { ClipboardList, Plus, ShoppingBasket, ShoppingCart } from 'lucide-svelte';
+	import { ClipboardList, Plus, ShoppingBasket, ShoppingCart, Percent } from 'lucide-svelte';
 	import { page } from '$app/stores';
-
-	async function logout() {
-		const res = await fetch('/api/logout', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		if (res.ok) {
-			window.location.href = '/login';
-		}
-	}
 </script>
 
 <div
@@ -47,6 +35,14 @@
 					.url.pathname === '/admin/pedidos'
 					? 'bg-brownCrayola text-white'
 					: ''}"><ShoppingCart />Pedidos</Button
+			>
+			<Button
+				href="/admin/promocoes"
+				variant="ghost"
+				class="flex justify-start gap-2 rounded-xl py-6 hover:bg-brownCrayola hover:text-white {$page
+					.url.pathname === '/admin/promocoes'
+					? 'bg-brownCrayola text-white'
+					: ''}"><Percent />Promoções</Button
 			>
 		</div>
 	</div>
