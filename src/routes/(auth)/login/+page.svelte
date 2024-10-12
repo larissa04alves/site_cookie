@@ -30,7 +30,7 @@
 					Faça login com o Google
 				</Button>
 				<Button
-					href="/login/discord"
+					href="/login/google"
 					class="h-12 gap-2 bg-white text-black hover:text-white md:h-11 md:w-2/6"
 				>
 					<img class="w-8" src={facebookIcon} alt="Facebook" />
