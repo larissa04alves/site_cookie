@@ -1,10 +1,9 @@
 <script lang="ts">
+	import Header from '$lib/components/Header.svelte';
+	import hero from '$lib/img/hero1.png';
 </script>
 
-<div
-	class="flex h-screen w-full flex-col items-center justify-center gap-10 font-cormorant text-4xl font-bold text-brownCrayola"
->
-	<h1>Teste as rotas:</h1>
-	<a href="/login" class="hover:underline">/login</a>
-	<a href="/admin/produtos" class="hover:underline">/admin/produtos</a>
+<div class="flex flex-col">
+	<Header />
+	<img class="h-[80%] w-[100%]" src={hero} alt="" />
 </div>

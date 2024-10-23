@@ -51,7 +51,8 @@ const config: Config = {
 				// Custom colors
 				brownNose: '#753F21',
 				brownCrayola: '#A35A32',
-				seashell: '#FFF3EA'
+				seashell: '#FFF3EA',
+				ghostWhite: '#F8F8FF'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
