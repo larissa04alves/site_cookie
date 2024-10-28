@@ -38,17 +38,17 @@
 			<Input
 				type="search"
 				placeholder="Pesquisar"
-				class=" bg-ghostWhite max-w-lg rounded-2xl border-none pl-10 placeholder:text-xs placeholder:text-brownNose"
+				class=" max-w-lg rounded-2xl border-none bg-ghostWhite pl-10 placeholder:text-xs placeholder:text-brownNose"
 			/>
 		</div>
 		<Button
-			class="bg-ghostWhite flex h-10 w-10 items-center justify-center rounded-full p-0"
+			class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
 			variant="ghost"
 		>
 			<ShoppingCart class="w-4 text-brownNose" />
 		</Button>
 		<Button
-			class="bg-ghostWhite flex h-10 w-10 items-center justify-center rounded-full p-0"
+			class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
 			variant="ghost"><User class="w-4 text-brownNose" /></Button
 		>
 	</div>
