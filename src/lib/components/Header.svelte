@@ -5,8 +5,8 @@
 	import { Input } from './ui/input';
 </script>
 
-<div class="flex w-full items-center justify-between px-16 py-5">
-	<img class="w-[6%]" src={logo} alt="logo da loja" />
+<div class="flex w-full items-center justify-between px-16 py-4">
+	<img class="w-[4%]" src={logo} alt="logo da loja" />
 	<div class="font-montserrat text-brownNose">
 		<Button
 			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
