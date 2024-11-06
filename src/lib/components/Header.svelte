@@ -3,6 +3,7 @@
 	import { Search, ShoppingCart, User } from 'lucide-svelte';
 	import { Button } from './ui/button';
 	import { Input } from './ui/input';
+	import SheetCarrinho from './SheetCarrinho.svelte';
 </script>
 
 <div class="flex w-full items-center justify-between px-16 py-4">
@@ -51,5 +52,6 @@
 			class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
 			variant="ghost"><User class="w-4 text-brownNose" /></Button
 		>
+		<SheetCarrinho />
 	</div>
 </div>
