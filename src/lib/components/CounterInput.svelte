@@ -1,6 +1,10 @@
-<script>
+<script lang="ts">
 	import { MinusCircle, PlusCircle } from 'lucide-svelte';
-	export let count = 0; // Agora count é uma prop recebida
+	interface Props {
+		count?: number; // Agora count é uma prop recebida
+	}
+
+	let { count = $bindable(0) }: Props = $props();
 
 	function increment() {
 		count++;
@@ -17,7 +21,7 @@
 	<button
 		type="button"
 		id="decrement-button"
-		on:click={decrement}
+		onclick={decrement}
 		class="inline-flex h-5 w-5 flex-shrink-0 items-center justify-center focus:outline-none"
 	>
 		<MinusCircle class=" text-gray-900" />
@@ -34,7 +38,7 @@
 	<button
 		type="button"
 		id="increment-button"
-		on:click={increment}
+		onclick={increment}
 		class="inline-flex h-5 w-5 flex-shrink-0 items-center justify-center focus:outline-none"
 	>
 		<PlusCircle class=" text-gray-900" />

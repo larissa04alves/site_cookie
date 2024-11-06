@@ -7,8 +7,8 @@
 </script>
 
 <Sheet.Root>
-	<Sheet.Trigger asChild let:builder>
-		<Button builders={[builder]} variant="ghost"><Pencil /></Button>
+	<Sheet.Trigger>
+		<Button variant="ghost"><Pencil /></Button>
 	</Sheet.Trigger>
 	<Sheet.Content side="right" class="flex flex-col items-start gap-6 bg-seashell">
 		<Sheet.Header>
@@ -43,10 +43,8 @@
 			</div>
 		</div>
 		<Sheet.Footer>
-			<Sheet.Close asChild let:builder>
-				<Button builders={[builder]} type="submit" class="bg-brownCrayola hover:bg-brownNose"
-					>Salvar</Button
-				>
+			<Sheet.Close>
+				<Button type="submit" class="bg-brownCrayola hover:bg-brownNose">Salvar</Button>
 			</Sheet.Close>
 		</Sheet.Footer>
 	</Sheet.Content>

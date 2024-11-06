@@ -10,7 +10,7 @@
 	class="w-full max-w-sm"
 >
 	<Carousel.Content>
-		{#each Array(5) as _, i (i)}
+		{#each Array(5) as i (i)}
 			<Carousel.Item class="md:basis-1/2 lg:basis-1/3">
 				<div class="p-1">
 					<Card.Root>
