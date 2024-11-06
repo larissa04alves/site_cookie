@@ -4,21 +4,21 @@
 	import { Toaster } from '$lib/components/ui/sonner';
 	import Header from '$lib/components/Header.svelte';
 	import { page } from '$app/stores';
+	import Footer from '$lib/components/Footer.svelte';
 
-	let linkAtual = $page.url.pathname;
-
-	console.log(linkAtual);
+	$: linkAtual = $page.url.pathname;
 </script>
 
 <Toaster richColors />
 
 <ModeWatcher defaultMode="light" />
-{#if linkAtual === '/admin' || linkAtual === '/login' || linkAtual === '/admin/produtos' || linkAtual === '/admin/novoproduto' || linkAtual === '/admin/pedidos' || linkAtual === '/admin/promocoes'}
-	<div class="hidden">teste</div>
-{:else}
+{#if linkAtual === '/'}
 	<Header />
 {/if}
 
 <div class="flex h-full w-full flex-col items-center justify-center">
 	<slot></slot>
+	{#if linkAtual === '/'}
+		<Footer />
+	{/if}
 </div>

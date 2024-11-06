@@ -26,7 +26,7 @@
 		>
 		<Button
 			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
-			variant="ghost">CONTATO</Button
+			variant="ghost">AVALIAÇÕES</Button
 		>
 	</div>
 
