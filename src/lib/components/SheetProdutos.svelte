@@ -5,22 +5,24 @@
 	import { Pencil } from 'lucide-svelte';
 	import { Input } from './ui/input';
 	import Textarea from './ui/textarea/textarea.svelte';
-	import { enhance } from '$app/forms';
 
-	export let produto: any;
+	interface Props {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		produto: any;
+	}
 
-	let nomeProduto = produto.nome;
-	let valorProduto = produto.valor;
-	let descricao = produto.descricao;
-	let arquivo = produto.arquivo;
+	let { produto }: Props = $props();
+
+	let nomeProduto = $state(produto.nome);
+	let valorProduto = $state(produto.valor);
+	let descricao = $state(produto.descricao);
+	let arquivo = $state(produto.arquivo);
 </script>
 
 <Sheet.Root>
-	<Sheet.Trigger asChild let:builder>
-		<Button
-			class="text-brownCrayola hover:bg-transparent hover:text-brownNose"
-			builders={[builder]}
-			variant="ghost"><Pencil size="20" /></Button
+	<Sheet.Trigger>
+		<Button class="text-brownCrayola hover:bg-transparent hover:text-brownNose" variant="ghost"
+			><Pencil size="20" /></Button
 		>
 	</Sheet.Trigger>
 	<Sheet.Content side="right" class="flex flex-col items-start gap-6 bg-seashell">
@@ -70,7 +72,7 @@
 					/>
 				</div>
 				<Sheet.Footer>
-					<Sheet.Close asChild let:builder>
+					<Sheet.Close>
 						<Button type="submit" class="bg-brownCrayola hover:bg-brownNose">Salvar</Button>
 					</Sheet.Close>
 				</Sheet.Footer>

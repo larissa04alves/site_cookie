@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
@@ -6,7 +6,9 @@
 	import { page } from '$app/stores';
 	import Footer from '$lib/components/Footer.svelte';
 
-	$: linkAtual = $page.url.pathname;
+	let { children } = $props();
+
+	let linkAtual = $derived($page.url.pathname);
 </script>
 
 <Toaster richColors />
@@ -17,7 +19,8 @@
 {/if}
 
 <div class="flex h-full w-full flex-col items-center justify-center">
-	<slot></slot>
+	{@render children()}
+
 	{#if linkAtual === '/'}
 		<Footer />
 	{/if}

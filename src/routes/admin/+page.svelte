@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { UserDataFromCookies } from '$lib/database/typesUteis.js';
 
-	export let data;
+	let { data } = $props();
 	const user: UserDataFromCookies = data.user;
 </script>
 
