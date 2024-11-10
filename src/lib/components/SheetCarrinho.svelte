@@ -1,14 +1,19 @@
 <script lang="ts">
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
-	import { Button } from '$lib/components/ui/button/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import { ShoppingCart } from 'lucide-svelte';
 	import Combobox from '$lib/components/Combobox.svelte';
+	import Button from './ui/button/button.svelte';
 </script>
 
 <Sheet.Root>
-	<Sheet.Trigger asChild let:builder>
-		<Button builders={[builder]} variant="ghost"><ShoppingCart /></Button>
+	<Sheet.Trigger>
+		<Button
+			variant="ghost"
+			class="inline-flex items-center justify-center gap-2 rounded-md bg-primary text-primary-foreground shadow hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+		>
+			<ShoppingCart />
+		</Button>
 	</Sheet.Trigger>
 	<Sheet.Content side="right" class="z-50 flex flex-col items-start gap-6 bg-seashell">
 		<Sheet.Header>
@@ -25,16 +30,16 @@
 			</div>
 			<div class="flex flex-col items-start justify-start gap-1">
 				<Label for="name" class="text-right">Nome do Cliente:</Label>
-				<p>João Carlos Oliverias Santos Cabral</p>
+				<p>João Carlos Oliveira Santos Cabral</p>
 			</div>
 			<div class="flex flex-col items-start justify-start gap-1">
 				<Label for="name" class="text-right">Itens do pedido:</Label>
 				<p>1x Cookie chocolate</p>
-				<p>2x Cookie nutela</p>
+				<p>2x Cookie Nutella</p>
 				<p>1x Cookie doce de leite</p>
 			</div>
 			<div class="flex items-center gap-2">
-				<Label for="name" class="text-right">valor:</Label>
+				<Label for="name" class="text-right">Valor:</Label>
 				<p>R$ 28,90</p>
 			</div>
 			<div class="flex items-center gap-2">
@@ -42,12 +47,13 @@
 				<Combobox />
 			</div>
 		</div>
-		bun
 		<Sheet.Footer>
-			<Sheet.Close asChild let:builder>
-				<Button builders={[builder]} type="submit" class="bg-brownCrayola hover:bg-brownNose"
-					>Salvar</Button
+			<Sheet.Close>
+				<div
+					class="inline-flex items-center justify-center gap-2 rounded-md bg-brownCrayola text-white shadow hover:bg-brownNose focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
 				>
+					Salvar
+				</div>
 			</Sheet.Close>
 		</Sheet.Footer>
 	</Sheet.Content>

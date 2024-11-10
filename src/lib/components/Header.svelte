@@ -4,30 +4,36 @@
 	import { Button } from './ui/button';
 	import { Input } from './ui/input';
 	import SheetCarrinho from './SheetCarrinho.svelte';
+
+	let scrollY = 0;
 </script>
 
-<div class="flex w-full items-center justify-between px-16 py-4">
+<svelte:window bind:scrollY />
+
+<nav
+	class={`fixed z-50 flex w-full items-center justify-around bg-white py-4 transition-shadow duration-300 ${scrollY > 0 ? 'shadow-md' : ''}`}
+>
 	<img class="w-[4%]" src={logo} alt="logo da loja" />
 	<div class="font-montserrat text-brownNose">
 		<Button
+			href="/"
 			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
 			variant="ghost">HOME</Button
 		>
 		<Button
+			href="#produtos"
 			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
 			variant="ghost">PRODUTOS</Button
 		>
 		<Button
-			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
-			variant="ghost">BEST SELLERS</Button
-		>
-		<Button
+			href="#sobrenos"
 			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
 			variant="ghost">SOBRE NÓS</Button
 		>
 		<Button
+			href="#bestsellers"
 			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
-			variant="ghost">AVALIAÇÕES</Button
+			variant="ghost">MAIS VENDIDOS</Button
 		>
 	</div>
 
@@ -50,8 +56,8 @@
 		</Button>
 		<Button
 			class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
+			href="/login"
 			variant="ghost"><User class="w-4 text-brownNose" /></Button
 		>
-		<SheetCarrinho />
 	</div>
-</div>
+</nav>

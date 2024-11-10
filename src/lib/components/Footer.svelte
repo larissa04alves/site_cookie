@@ -5,7 +5,7 @@
 	import whatsapp from '$lib/img/whatsapp.svg';
 </script>
 
-<div class="flex h-1/4 w-full items-start justify-evenly bg-brownNose py-8">
+<div class="flex h-1/2 w-full items-start justify-evenly bg-brownNose py-5">
 	<div class="flex flex-col justify-center gap-2">
 		<img class="w-24" src={logoMo} alt="" />
 		<div class="flex flex-col gap-1">
@@ -15,17 +15,19 @@
 		</div>
 	</div>
 	<div class="flex flex-col justify-center gap-2">
-		<p class="pb-5 text-sm font-bold text-seashell">MENU</p>
+		<p class="pb-1 text-sm font-bold text-seashell">MENU</p>
 		<a class="text-xs text-seashell hover:font-bold" href="/">Home</a>
 		<a class="text-xs text-seashell hover:font-bold" href="/">Produtos</a>
 		<a class="text-xs text-seashell hover:font-bold" href="/">Best Sellers</a>
 		<a class="text-xs text-seashell hover:font-bold" href="/">Sobre nós</a>
 	</div>
 	<div class="flex flex-col justify-center">
-		<p class="flex justify-center pb-5 text-sm font-bold text-seashell">REDES SOCIAIS</p>
+		<p class="flex justify-center pb-1 text-sm font-bold text-seashell">REDES SOCIAIS</p>
 		<div>
-			<Button class="p-0 text-seashell" variant="ghost"><Instagram /></Button>
-			<Button variant="ghost"><img src={whatsapp} alt="" /></Button>
+			<Button class="p-0 text-seashell hover:bg-transparent hover:text-white" variant="ghost"
+				><Instagram /></Button
+			>
+			<Button class="hover:bg-transparent" variant="ghost"><img src={whatsapp} alt="" /></Button>
 		</div>
 	</div>
 </div>
