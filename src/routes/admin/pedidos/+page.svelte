@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Check } from 'lucide-svelte';
+	import type { PageData } from './$types';
 	import SheetPedidos from '$lib/components/SheetPedidos.svelte';
 </script>
 
@@ -132,7 +133,7 @@
 
 	<div class="mt-6 flex items-center justify-between">
 		<a
-			href="#testeteste"
+			href="#"
 			class="flex items-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm capitalize text-gray-700 transition-colors duration-200 hover:bg-gray-100"
 		>
 			<svg
@@ -154,21 +155,21 @@
 		</a>
 
 		<div class="hidden items-center gap-x-3 md:flex">
-			<a href="#teste" class="rounded-md bg-blue-100/60 px-2 py-1 text-sm text-blue-500">1</a>
+			<a href="#" class="rounded-md bg-blue-100/60 px-2 py-1 text-sm text-blue-500">1</a>
 			<a
-				href="#teste"
+				href="#"
 				class="rounded-md px-2 py-1 text-sm text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
 				>2</a
 			>
 			<a
-				href="#teste"
+				href="#"
 				class="rounded-md px-2 py-1 text-sm text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
 				>3</a
 			>
 		</div>
 
 		<a
-			href="#teste"
+			href="#"
 			class="flex items-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm capitalize text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
 		>
 			<span> Próximo </span>

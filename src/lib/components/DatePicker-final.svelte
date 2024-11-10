@@ -5,31 +5,33 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Calendar } from '$lib/components/ui/calendar/index.js';
 	import * as Popover from '$lib/components/ui/popover/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
+	import { Label } from './ui/label';
 
-	const df = new DateFormatter('pt-BR', {
+	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
 	});
 
-	let value = $state<DateValue | undefined>(undefined);
+	let value: DateValue | undefined = undefined;
+
+	// Define uma variável reativa que atualiza quando 'value' muda
+	$: dataFim = formatDate(value);
 
 	const formatDate = (date: DateValue | undefined) => {
 		return date ? date.toDate(getLocalTimeZone()).toISOString().split('T')[0] : '';
 	};
-
-	let dataFim = $derived(() => formatDate(value));
 </script>
 
-<div class="flex max-w-[50%] flex-col gap-2">
+<div class=" flex max-w-[50%] flex-col gap-2">
 	<Label for="dataFim">Data de fim da promoção</Label>
 	<Popover.Root>
-		<Popover.Trigger>
+		<Popover.Trigger asChild let:builder>
 			<Button
 				variant="outline"
 				class={cn(
 					'w-[280px] justify-start text-left font-normal',
 					!value && 'text-muted-foreground'
 				)}
+				builders={[builder]}
 			>
 				<CalendarIcon class="mr-2 h-4 w-4" />
 				{value ? df.format(value.toDate(getLocalTimeZone())) : 'Selecione uma data'}

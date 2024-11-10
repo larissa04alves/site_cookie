@@ -6,23 +6,20 @@
 	import { Input } from './ui/input';
 	import Textarea from './ui/textarea/textarea.svelte';
 
-	interface Props {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		promo: any;
-	}
+	export let promo: any;
 
-	let { promo }: Props = $props();
-
-	let nomePromo = $state(promo.nome);
-	let valorPromo = $state(promo.valor);
-	let descricaoPromo = $state(promo.descricao);
-	let arquivoPromo = $state(promo.arquivo);
+	let nomePromo = promo.nome;
+	let valorPromo = promo.valor;
+	let descricaoPromo = promo.descricao;
+	let arquivoPromo = promo.arquivo;
 </script>
 
 <Sheet.Root>
-	<Sheet.Trigger>
-		<Button class="text-brownCrayola hover:bg-transparent hover:text-brownNose" variant="ghost"
-			><Pencil size="20" /></Button
+	<Sheet.Trigger asChild let:builder>
+		<Button
+			class="text-brownCrayola hover:bg-transparent hover:text-brownNose"
+			builders={[builder]}
+			variant="ghost"><Pencil size="20" /></Button
 		>
 	</Sheet.Trigger>
 	<Sheet.Content side="right" class="flex flex-col items-start gap-6 bg-seashell">
@@ -72,7 +69,7 @@
 					/>
 				</div>
 				<Sheet.Footer>
-					<Sheet.Close>
+					<Sheet.Close asChild let:builder>
 						<Button type="submit" class="bg-brownCrayola hover:bg-brownNose">Salvar</Button>
 					</Sheet.Close>
 				</Sheet.Footer>
