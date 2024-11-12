@@ -3,6 +3,7 @@
 	import { Search, ShoppingCart, User } from 'lucide-svelte';
 	import { Button } from './ui/button';
 	import { Input } from './ui/input';
+	import SheetCarrinho from './SheetCarrinho.svelte';
 
 	let scrollY = 0;
 </script>
@@ -16,22 +17,22 @@
 	<div class="font-montserrat text-brownNose">
 		<Button
 			href="/"
-			class="hover:text-brownNose text-xs font-medium hover:bg-transparent hover:font-bold"
+			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
 			variant="ghost">HOME</Button
 		>
 		<Button
 			href="#produtos"
-			class="hover:text-brownNose text-xs font-medium hover:bg-transparent hover:font-bold"
+			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
 			variant="ghost">PRODUTOS</Button
 		>
 		<Button
 			href="#sobrenos"
-			class="hover:text-brownNose text-xs font-medium hover:bg-transparent hover:font-bold"
+			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
 			variant="ghost">SOBRE NÓS</Button
 		>
 		<Button
 			href="#bestsellers"
-			class="hover:text-brownNose text-xs font-medium hover:bg-transparent hover:font-bold"
+			class="text-xs font-medium hover:bg-transparent hover:font-bold hover:text-brownNose"
 			variant="ghost">MAIS VENDIDOS</Button
 		>
 	</div>
@@ -39,24 +40,20 @@
 	<div class="flex gap-2">
 		<div class="relative w-full max-w-[14rem]">
 			<span class="absolute inset-y-0 left-0 flex items-center pl-3">
-				<Search class="text-brownCrayola h-4 w-4" />
+				<Search class="h-4 w-4 text-brownCrayola" />
 			</span>
 			<Input
 				type="search"
 				placeholder="Pesquisar"
-				class=" bg-ghostWhite placeholder:text-brownNose max-w-lg rounded-2xl border-none pl-10 placeholder:text-xs"
+				class=" max-w-lg rounded-2xl border-none bg-ghostWhite pl-10 placeholder:text-xs placeholder:text-brownNose"
 			/>
 		</div>
+
+		<SheetCarrinho />
 		<Button
-			class="bg-ghostWhite flex h-10 w-10 items-center justify-center rounded-full p-0"
-			variant="ghost"
-		>
-			<ShoppingCart class="text-brownNose w-4" />
-		</Button>
-		<Button
-			class="bg-ghostWhite flex h-10 w-10 items-center justify-center rounded-full p-0"
+			class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
 			href="/login"
-			variant="ghost"><User class="text-brownNose w-4" /></Button
+			variant="ghost"><User class="w-4 text-brownNose" /></Button
 		>
 	</div>
 </nav>
