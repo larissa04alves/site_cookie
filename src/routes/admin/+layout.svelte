@@ -3,7 +3,6 @@
 	import type { LayoutData } from './$types';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
-
 	import Sidebar from '$lib/components/SideBar.svelte';
 	import TopBar from '$lib/components/TopBar.svelte';
 </script>

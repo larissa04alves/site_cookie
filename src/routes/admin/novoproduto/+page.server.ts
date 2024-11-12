@@ -20,6 +20,7 @@ async function processarImagem(arquivo: File): Promise<string | null> {
 export const actions: Actions = {
 	criarProduto: async ({ request }) => {
 		const data = await request.formData();
+		console.log('Data:', data);
 
 		const nomeProduto = data.get('nomeProduto') as string;
 		const valorProdutoStr = (data.get('valorProduto') as string)?.replace(',', '.');

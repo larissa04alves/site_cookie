@@ -5,9 +5,12 @@
 	import Footer from '$lib/components/Footer.svelte';
 	let { children } = $props();
 	import { ModeWatcher } from 'mode-watcher';
+	import { Toaster } from '$lib/components/ui/sonner/index.js';
 
 	let linkAtual = $state($page.url.pathname);
 </script>
+
+<Toaster richColors />
 
 <ModeWatcher />
 
