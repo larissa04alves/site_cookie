@@ -20,22 +20,29 @@
 	});
 </script>
 
-<div class="mx-auto grid w-4/5 grid-cols-1 gap-10 md:grid-cols-4 lg:grid-cols-4">
+<div class="mx-auto grid w-4/5 grid-cols-1 gap-x-28 gap-y-10 md:grid-cols-4 lg:grid-cols-4">
 	{#each cookie as produto}
-		<div class="flex flex-col items-center justify-center gap-4 rounded-xl py-3 shadow-2xl">
-			<img class="h-48 w-full rounded-lg object-cover px-2" src={produto.arquivo} alt="" />
+		<div
+			class="relative flex h-96 w-60 flex-col items-center justify-center gap-4 rounded-xl bg-seashell py-3 shadow-2xl"
+		>
+			<div class="relative h-[75%] w-[90%] overflow-hidden rounded-xl">
+				<img class="h-full w-full object-cover" src={produto.arquivo} alt="" />
+
+				<div class="absolute right-3 top-3 flex items-center rounded-full bg-[#00000099] px-2 py-1">
+					<Star fill="#A35A32" color="transparent" size="14" />
+					<span class="ml-1 text-xs font-semibold text-white">4.5</span>
+				</div>
+			</div>
+
 			<div class="flex w-full flex-col px-4">
 				<div class="flex items-center justify-between">
-					<h1>{produto.nome}</h1>
-					<p class="flex items-center gap-1 text-sm">
-						<Star fill="#A35A32" color="transparent" size="18" /> 4.5
-					</p>
+					<h1 class="text-lg font-semibold">{produto.nome}</h1>
 				</div>
 				<div class="mt-2 flex items-center justify-between">
 					<h1 class="text-lg font-semibold">R$ {produto.valor}</h1>
 					<Button
 						variant="ghost"
-						class="bg-brownCrayola hover:bg-brownNose flex h-8 w-8 items-center justify-center rounded-full p-0"
+						class="flex h-8 w-8 items-center justify-center rounded-full bg-brownCrayola p-0 hover:bg-brownNose"
 					>
 						<ShoppingCart size={18} color="white" />
 					</Button>

@@ -8,6 +8,7 @@
 	import motoboyIcon from '$lib/img/motoboyIcon.png';
 	import happyIcon from '$lib/img/happyIcon.png';
 	import avatar from '$lib/img/avatarSobre.jpeg';
+	import CardMaisVendido from '$lib/components/CardMaisVendido.svelte';
 </script>
 
 <div class="flex h-full w-full flex-col pt-20">
@@ -16,7 +17,7 @@
 		style="background-image:url({hero});"
 	>
 		<div class="flex flex-col gap-6 pl-32">
-			<h1 class="font-cormorant text-brownNose text-7xl font-bold">
+			<h1 class="font-cormorant text-7xl font-semibold text-brownNose">
 				Cookies artesanais, <br /> feitos para adoçar <br /> cada momento especial
 			</h1>
 			<p class="font-montserrat text-brownCrayola">
@@ -27,21 +28,21 @@
 				<Button
 					variant="ghost"
 					href="#produtos"
-					class="bg-brownCrayola font-montserrat hover:bg-brownNose flex w-[12%] gap-2 rounded-3xl py-5 text-xs font-semibold text-white hover:text-white"
+					class="font-montserrat flex w-[12%] gap-2 rounded-3xl bg-brownCrayola py-5 text-xs font-semibold text-white hover:bg-brownNose hover:text-white"
 					>COMPRE AGORA <ArrowRight size={15} strokeWidth={3} /></Button
 				>
 			</div>
 			<div class="font-montserrat flex gap-5 pt-10">
-				<div class="text-brownCrayola flex flex-col items-center justify-center">
+				<div class="flex flex-col items-center justify-center text-brownCrayola">
 					<h1 class="text-2xl font-bold">100%</h1>
 					<p class="text-xs">Ingredientes naturais</p>
 				</div>
-				<div class="text-brownCrayola flex flex-col items-center justify-center">
+				<div class="flex flex-col items-center justify-center text-brownCrayola">
 					<h1 class="text-2xl font-bold">600+</h1>
 					<p class="text-xs">Cookies vendidos</p>
 				</div>
 				<div>
-					<div class="text-brownCrayola flex flex-col items-center justify-center">
+					<div class="flex flex-col items-center justify-center text-brownCrayola">
 						<h1 class="text-2xl font-bold">100+</h1>
 						<p class="text-xs">Clientes satisfeitos</p>
 					</div>
@@ -54,37 +55,39 @@
 		id="produtos"
 		class="mb-10 flex h-full w-full flex-col items-center justify-center gap-6 py-12"
 	>
-		<div class="flex w-full items-center justify-evenly px-32">
-			<h1 class="font-cormorant text-brownNose w-full text-4xl font-bold">• Nossos Cookies •</h1>
+		<div class="flex w-full items-center justify-center px-20">
+			<h1 class="font-cormorant w-full pl-16 text-4xl font-bold text-brownNose">
+				• Nossos Cookies •
+			</h1>
 			<div class="flex gap-2">
 				<Button
 					variant="ghost"
-					class="border-brownNose font-montserrat text-brownNose hover:bg-brownNose flex w-1/3 rounded-3xl border py-2 text-[0.65rem] font-semibold hover:text-white"
+					class="font-montserrat flex w-1/3 rounded-3xl border border-brownNose py-2 text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
 					>Mais recentes</Button
 				>
 				<Button
 					variant="ghost"
-					class="border-brownNose font-montserrat text-brownNose hover:bg-brownNose flex w-1/3 rounded-3xl border py-2 text-[0.65rem] font-semibold hover:text-white"
+					class="font-montserrat flex w-1/3 rounded-3xl border border-brownNose py-2 text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
 					>Populares</Button
 				>
 				<Button
 					variant="ghost"
-					class="border-brownNose font-montserrat text-brownNose hover:bg-brownNose flex w-1/3 rounded-3xl border py-2 text-[0.65rem] font-semibold hover:text-white"
+					class="font-montserrat flex w-1/3 rounded-3xl border border-brownNose py-2 text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
 					>Promoções</Button
 				>
 			</div>
 		</div>
-		<div class="flex">
+		<div class="flex justify-center">
 			<CardsProdutos />
 		</div>
 	</div>
 
-	<div class="bg-seashell relative flex h-2/3 w-full justify-center gap-20">
+	<div class="relative flex h-2/3 w-full justify-center gap-20 bg-seashell">
 		<img class="relative z-10 -mb-10 -mt-10 w-[30rem]" src={cookiePage} alt="" />
 		<div class="flex flex-col justify-center gap-5">
 			<div>
-				<h1 class="font-cormorant text-brownNose text-4xl font-bold">VAI UM COOKIE AÍ?</h1>
-				<p class="font-montserrat text-brownNose text-sm">
+				<h1 class="font-cormorant text-4xl font-bold text-brownNose">VAI UM COOKIE AÍ?</h1>
+				<p class="font-montserrat text-sm text-brownNose">
 					Delicie-se com nossos cookies artesanais, feitos para tornar seu dia especial. <br /> Peça
 					e receba em casa o sabor que você merece!
 				</p>
@@ -93,17 +96,17 @@
 			<div class="flex items-center gap-8">
 				<div class="flex flex-col items-center justify-center">
 					<img class="w-16" src={cookieIcon} alt="" />
-					<p class="text-brownNose text-start text-sm font-semibold">Escolha Seus <br />cookies</p>
+					<p class="text-start text-sm font-semibold text-brownNose">Escolha Seus <br />cookies</p>
 				</div>
 				<ChevronRight class="text-brownNose" />
 				<div class="flex flex-col items-center justify-center">
 					<img class="w-16" src={motoboyIcon} alt="" />
-					<p class="text-brownNose text-start text-sm font-semibold">Faça seu <br />pedido</p>
+					<p class="text-start text-sm font-semibold text-brownNose">Faça seu <br />pedido</p>
 				</div>
 				<ChevronRight class="text-brownNose" />
 				<div class="flex flex-col items-center justify-center">
 					<img class="w-[3rem]" src={happyIcon} alt="" />
-					<p class="text-brownNose text-start text-sm font-semibold">Receba & <br />Delicie-se!</p>
+					<p class="text-start text-sm font-semibold text-brownNose">Receba & <br />Delicie-se!</p>
 				</div>
 			</div>
 		</div>
@@ -122,18 +125,18 @@
 			</div>
 		</div>
 		<div id="sobrenos" class="flex w-1/3 flex-col gap-8">
-			<div class="text-brownNose flex flex-col gap-5 text-sm font-bold">
+			<div class="flex flex-col gap-5 text-sm font-bold text-brownNose">
 				<p>Cookie da Mo</p>
-				<h1 class="font-cormorant text-brownNose text-5xl font-bold">QUEM SOMOS</h1>
+				<h1 class="font-cormorant text-5xl font-bold text-brownNose">QUEM SOMOS</h1>
 			</div>
 			<div class="flex flex-col gap-5">
-				<p class="text-brownNose font-medium">
+				<p class="font-medium text-brownNose">
 					Nossa jornada começou com uma profissional de TI que, além da paixão pela tecnologia,
 					encontrou nos cookies uma forma de espalhar carinho. Ao preparar receitas para a família,
 					descobriu que fazer cookies podia ser mais que um hobby — uma atividade cheia de
 					significado.
 				</p>
-				<p class="text-brownNose font-medium">
+				<p class="font-medium text-brownNose">
 					Assim, nasceu nosso propósito: levar até você cookies artesanais feitos com cuidado, desde
 					a escolha dos ingredientes até a entrega, para que cada mordida seja uma experiência
 					especial.
@@ -142,9 +145,9 @@
 		</div>
 	</div>
 
-	<div id="bestsellers" class="flex h-full w-full flex-col items-center justify-center pt-20">
-		<h1 class="font-cormorant text-brownNose text-4xl font-bold">• Mais Vendidos •</h1>
-		<h1>AQUI ERA CARD HOVER DIRECIONAL</h1>
+	<div id="bestsellers" class="flex h-full w-full flex-col items-center justify-center py-10 pt-20">
+		<h1 class="font-cormorant text-4xl font-bold text-brownNose">• Mais Vendidos •</h1>
+		<CardMaisVendido />
 	</div>
 
 	<!-- <div id="avaliacoes" class="flex flex-col items-center justify-center pt-10">

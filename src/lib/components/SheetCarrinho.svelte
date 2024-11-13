@@ -1,11 +1,12 @@
 <script lang="ts">
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
 	import { buttonVariants } from '$lib/components/ui/button/index.js';
-	import { ArrowRight, ShoppingCart, Truck } from 'lucide-svelte';
+	import { ArrowRight, Plus, ShoppingCart, Truck } from 'lucide-svelte';
 	import cookieBranco from '$lib/img/cookiebranco.png';
 	import { Separator } from './ui/separator';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import Button from './ui/button/button.svelte';
+	import CounterInput from './CounterInput.svelte';
 </script>
 
 <Sheet.Root>
@@ -21,14 +22,23 @@
 			>
 			<div class="flex items-center gap-2 pt-10">
 				<img class="w-1/4 rounded-md" src={cookieBranco} alt="produto" />
-				<div class="w-full text-xs text-brownNose">
+				<div class="flex w-full flex-col gap-3 text-xs text-brownNose">
 					<div class="flex gap-5">
 						<h1 class="font-semibold">Cookie Chocolate Branco</h1>
 						<p class="flex text-sm">R$ 10.90</p>
 					</div>
-					counter 1
+					<div class="flex gap-1">
+						<CounterInput />
+						<Button
+							variant="link"
+							class=" flex items-center justify-center rounded-full  text-xs text-brownCrayola"
+						>
+							Adicionar
+						</Button>
+					</div>
 				</div>
 			</div>
+
 			<Separator class="my-5" />
 			<div class="flex justify-between text-sm">
 				<h1 class="font-semibold">Subtotal</h1>
