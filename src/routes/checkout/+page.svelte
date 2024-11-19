@@ -1,11 +1,192 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import logo from '$lib/img/logoCookiesMo.png';
-	let { data }: { data: PageData } = $props();
+	import Separator from '$lib/components/ui/separator/separator.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import cookie from '$lib/img/cookiebranco.png';
 </script>
 
-<div>
-	<div>
-		<img src={logo} alt="" />
+<div class="flex h-full w-full flex-col bg-seashell font-montserrat">
+	<div class="flex h-full w-full flex-col items-center">
+		<img class="flex w-24 p-2" src={logo} alt="" />
+		<Separator class="bg-brownNose" />
+	</div>
+
+	<div class="flex h-full w-full">
+		<div class="flex h-full w-1/2 flex-col gap-5 px-24 py-5">
+			<div class="flex justify-between">
+				<h1 class="font-montserrat text-xl font-semibold text-brownNose">Endereço</h1>
+				<Button variant="link">Fazer Login</Button>
+			</div>
+
+			<div class="flex w-full flex-col gap-10">
+				<div class="flex w-full gap-5">
+					<div class="relative w-1/2">
+						<Input
+							id="name"
+							name="name"
+							type="text"
+							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+						/>
+						<Label
+							for="name"
+							class="absolute -top-5 left-1 cursor-text pt-1 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-focus:-top-7 peer-focus:text-xs peer-focus:text-brownNose"
+						>
+							Nome
+						</Label>
+					</div>
+					<div class="relative w-1/2">
+						<Input
+							id="lastname"
+							name="lastname"
+							type="text"
+							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+						/>
+						<Label
+							for="name"
+							class="absolute -top-5 left-1 cursor-text pt-1 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-focus:-top-7 peer-focus:text-xs peer-focus:text-brownNose"
+						>
+							Sobrenome
+						</Label>
+					</div>
+				</div>
+
+				<div class="relative w-full">
+					<Input
+						id="cep"
+						name="cep"
+						type="text"
+						class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+					/>
+					<Label
+						for="cep"
+						class="absolute -top-5 left-1 cursor-text pt-1 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-focus:-top-7 peer-focus:text-xs peer-focus:text-brownNose"
+					>
+						CEP
+					</Label>
+				</div>
+
+				<div class="flex w-full gap-5">
+					<div class="relative w-1/2">
+						<Input
+							id="adress"
+							name="adress"
+							type="text"
+							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+						/>
+						<Label
+							for="adress"
+							class="absolute -top-5 left-1 cursor-text pt-1 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-focus:-top-7 peer-focus:text-xs peer-focus:text-brownNose"
+						>
+							Endereço
+						</Label>
+					</div>
+
+					<div class="relative w-1/2">
+						<Input
+							id="number"
+							name="number"
+							type="number"
+							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+						/>
+						<Label
+							for="number"
+							class="absolute -top-5 left-1 cursor-text pt-1 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-focus:-top-7 peer-focus:text-xs peer-focus:text-brownNose"
+						>
+							Número
+						</Label>
+					</div>
+				</div>
+
+				<div class="flex w-full gap-5">
+					<div class="relative w-1/2">
+						<Input
+							id="bairro"
+							name="bairro"
+							type="text"
+							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+						/>
+						<Label
+							for="number"
+							class="absolute -top-5 left-1 cursor-text pt-1 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-focus:-top-7 peer-focus:text-xs peer-focus:text-brownNose"
+						>
+							Bairro
+						</Label>
+					</div>
+					<div class="relative w-1/2">
+						<Input
+							id="city"
+							name="city"
+							type="text"
+							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+						/>
+						<Label
+							for="city"
+							class="absolute -top-5 left-1 cursor-text pt-1 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-focus:-top-7 peer-focus:text-xs peer-focus:text-brownNose"
+						>
+							Cidade
+						</Label>
+					</div>
+				</div>
+				<div class="relative w-full">
+					<Input
+						id="phone"
+						name="phone"
+						type="tel"
+						class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+					/>
+					<Label
+						for="phone"
+						class="absolute -top-5 left-1 cursor-text pt-1 text-xs transition-all peer-placeholder-shown:top-1 peer-placeholder-shown:text-sm peer-focus:-top-7 peer-focus:text-xs peer-focus:text-brownNose"
+					>
+						Telefone
+					</Label>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex h-screen w-1/2 flex-col bg-ghostWhite px-24">
+			<div class="flex items-center gap-2 pt-10">
+				<img class="w-[12%] rounded-md" src={cookie} alt="produto" />
+				<div class="flex w-full flex-col gap-3 text-xs text-brownNose">
+					<div class="flex gap-5">
+						<h1 class="font-semibold">Cookie Chocolate Branco</h1>
+						<p class="flex text-sm">R$ 10.90</p>
+					</div>
+				</div>
+			</div>
+			<Separator class="my-2 w-80" />
+
+			<div class="flex w-[56%] gap-2 py-2">
+				<Input
+					id="cupom"
+					name="cupom"
+					type="text"
+					placeholder="Insira o cupom"
+					class="border-brownNose"
+				></Input>
+				<Button
+					variant="ghost"
+					class="bg-brownNose text-white hover:bg-brownCrayola hover:text-white">Aplicar</Button
+				>
+			</div>
+
+			<div class="flex flex-col gap-2">
+				<div class="flex w-[56%] justify-between text-xs">
+					<h1>Subtotal</h1>
+					<Label>10.90</Label>
+				</div>
+				<div class="flex w-[56%] justify-between text-xs">
+					<h1>Frete</h1>
+					<Label>10.00</Label>
+				</div>
+				<div class="flex w-[56%] justify-between text-xs">
+					<h1>Total</h1>
+					<Label>20.90</Label>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

@@ -65,8 +65,8 @@
 				</Sheet.Close>
 				<Button
 					variant="ghost"
-					href="/ckeckout"
-					class="font-montserrat flex bg-brownCrayola text-xs font-semibold text-white hover:bg-brownNose hover:text-white"
+					href="/checkout"
+					class="flex bg-brownCrayola font-montserrat text-xs font-semibold text-white hover:bg-brownNose hover:text-white"
 				>
 					Finalizar compra
 				</Button>
