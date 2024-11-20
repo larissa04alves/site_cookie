@@ -26,7 +26,7 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@types/eslint": "^9.6.1",
 		"autoprefixer": "^10.4.20",
-		"bits-ui": "^1.0.0-next.60",
+		"bits-ui": "^1.0.0-next.63",
 		"clsx": "^2.1.1",
 		"drizzle-kit": "^0.22.8",
 		"embla-carousel-svelte": "^8.4.0",
@@ -55,7 +55,7 @@
 		"@oslojs/encoding": "^1.1.0",
 		"@types/node": "^22.9.0",
 		"drizzle-orm": "^0.33.0",
-		"lucide-svelte": "^0.456.0",
+		"lucide-svelte": "^0.460.1",
 		"mode-watcher": "^0.4.1",
 		"postgres": "^3.4.5",
 		"svelte-motion": "^0.12.2"

@@ -36,10 +36,10 @@
 
 			<div class="flex w-full flex-col px-4">
 				<div class="flex items-center justify-between">
-					<h1 class="text-lg font-semibold">{produto.nome}</h1>
+					<h1 class="text-lg font-semibold text-brownNose">{produto.nome}</h1>
 				</div>
 				<div class="mt-2 flex items-center justify-between">
-					<h1 class="text-lg font-semibold">R$ {produto.valor}</h1>
+					<h1 class="text-lg font-semibold text-brownNose">R$ {produto.valor}</h1>
 					<Button
 						variant="ghost"
 						class="flex h-8 w-8 items-center justify-center rounded-full bg-brownCrayola p-0 hover:bg-brownNose"

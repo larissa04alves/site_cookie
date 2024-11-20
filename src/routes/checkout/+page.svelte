@@ -6,14 +6,17 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import cookie from '$lib/img/cookiebranco.png';
+	import RadioPix from '$lib/components/RadioPix.svelte';
+	import RadioFrete from '$lib/components/RadioFrete.svelte';
+	import { ArrowLeft } from 'lucide-svelte';
 </script>
 
 <div class="flex h-full w-full flex-col bg-seashell font-montserrat">
-	<div class="flex h-full w-full flex-col items-center">
+	<div class="flex h-full w-[53%] items-center justify-between">
+		<Button href="/" variant="link" class="pl-10 text-xs"><ArrowLeft /> Voltar para a Loja</Button>
 		<img class="flex w-24 p-2" src={logo} alt="" />
-		<Separator class="bg-brownNose" />
 	</div>
-
+	<Separator class="bg-brownNose" />
 	<div class="flex h-full w-full">
 		<div class="flex h-full w-1/2 flex-col gap-5 px-24 py-5">
 			<div class="flex justify-between">
@@ -144,6 +147,20 @@
 						Telefone
 					</Label>
 				</div>
+			</div>
+			<div class="flex flex-col gap-2 py-2">
+				<h1 class="font-montserrat text-xl font-semibold text-brownNose">Forma de frete</h1>
+				<RadioFrete />
+			</div>
+			<div class="flex flex-col gap-2">
+				<h1 class="font-montserrat text-xl font-semibold text-brownNose">Pagamento</h1>
+				<div class="flex flex-col gap-1">
+					<RadioPix />
+					<h1 class="text-center text-xs text-zinc-500">
+						Clique em "Pagar agora" para finalizar a compra
+					</h1>
+				</div>
+				<Button class="my-5 bg-brownNose font-montserrat hover:bg-brownCrayola">Pagar agora</Button>
 			</div>
 		</div>
 
