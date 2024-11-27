@@ -1,14 +1,18 @@
-<script>
+<script lang="ts">
 	import { MinusCircle, PlusCircle } from 'lucide-svelte';
 	export let count = 0; // Agora count é uma prop recebida
+	export let minimum = 0; // Define a quantidade minima
+	export let onChangeValue = (value:number) => {}; // Retorna o novo valor em um evento
 
 	function increment() {
 		count++;
+		onChangeValue(count);
 	}
 
 	function decrement() {
-		if (count > 0) {
+		if (count > minimum) {
 			count--;
+			onChangeValue(count);
 		}
 	}
 </script>

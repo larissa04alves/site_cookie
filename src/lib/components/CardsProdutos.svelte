@@ -2,9 +2,45 @@
 	import { ShoppingCart, Star } from 'lucide-svelte';
 	import { Button } from './ui/button';
 	import { onMount } from 'svelte';
+	import { toast } from 'svelte-sonner';
+	import SheetCarrinho from './SheetCarrinho.svelte';
 
+	
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let cookie: Array<any> = [];
+
+    async function addItem(produto: any){
+		try{
+			const storageProduto = {
+				id: crypto.randomUUID(),
+				codigo: produto.codigo,
+				nome: produto.nome,
+				valor: produto.valor,
+				estoque: produto.estoque,
+				//imagem: produto.arquivo,
+				quantidade: 1,
+			};
+
+			const listItensStorage = sessionStorage.getItem('listItens');
+			const listItens = listItensStorage ? JSON.parse(listItensStorage) : [];
+			
+			listItens.push(storageProduto);
+			
+			sessionStorage.setItem('listItens', JSON.stringify(listItens))
+
+			toast.success('Item adicionado!', {
+				description: 'O item foi adicionado em seu carrinho.',
+				duration: 1000,
+			});
+			
+		}
+		catch(error){
+			toast.error('Erro ao adicionar o Item!', {
+				description: 'Infelizmente não conseguimos adicionar o item em seu carrinho.'
+			});
+			console.error('Erro de rede:', error);
+		}
+	}
 
 	onMount(async () => {
 		try {
@@ -43,7 +79,7 @@
 					<Button
 						variant="ghost"
 						class="flex h-8 w-8 items-center justify-center rounded-full bg-brownCrayola p-0 hover:bg-brownNose"
-					>
+						onclick={() => addItem(produto)}>
 						<ShoppingCart size={18} color="white" />
 					</Button>
 				</div>

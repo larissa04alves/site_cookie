@@ -9,7 +9,44 @@
 	import RadioPix from '$lib/components/RadioPix.svelte';
 	import RadioFrete from '$lib/components/RadioFrete.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import { float } from 'drizzle-orm/mysql-core';
+
+	type Item = {
+		id: string;
+		nome: string;
+		valor: string;
+		quantidade: number;
+	};
+
+	let itens: Array<Item> = [];
+
+	const carregarItens = () => {
+		const storedItems = sessionStorage.getItem('listItens');
+		try {
+			itens = storedItems ? JSON.parse(storedItems) : [];
+			if (!Array.isArray(itens)) {
+				itens = [];
+			}
+		} catch (error) {
+			console.error('Erro ao carregar itens:', error);
+			itens = [];
+		}
+	};
+
+	const formatarMoeda = (valor: number | string) => {
+		return new Intl.NumberFormat('pt-BR', {
+			style: 'currency',
+			currency: 'BRL',
+		}).format(typeof valor === 'string' ? parseFloat(valor) : valor);
+	};
+
+	onMount(() =>{
+		carregarItens();
+	});
+
 </script>
+
 
 <div class="flex h-full w-full flex-col bg-seashell font-montserrat">
 	<div class="flex h-full w-[53%] items-center justify-between">
@@ -165,16 +202,23 @@
 		</div>
 
 		<div class="flex h-screen w-1/2 flex-col bg-ghostWhite px-24">
-			<div class="flex items-center gap-2 pt-10">
-				<img class="w-[12%] rounded-md" src={cookie} alt="produto" />
-				<div class="flex w-full flex-col gap-3 text-xs text-brownNose">
-					<div class="flex gap-5">
-						<h1 class="font-semibold">Cookie Chocolate Branco</h1>
-						<p class="flex text-sm">R$ 10.90</p>
-					</div>
-				</div>
+			<div class="flex flex-col gap-2 mt-10">
+				{#if itens.length > 0}
+					{#each itens as item}
+							<!-- <img class="w-[12%] rounded-md" src={cookie} alt="produto" /> -->
+							<div class="flex w-[56%] justify-between text-xs">
+								
+									<h1 class="font-semibold">{item.quantidade} x {item.nome}</h1>
+									<p class="flex text-sm font-semibold">{formatarMoeda(item.valor)}{item.quantidade > 1 ? ' = ' + formatarMoeda(parseFloat(item.valor) * item.quantidade) : ''}</p>
+								
+							</div>
+						
+						<Separator class="my-2  w-[56%]" />
+					{/each}
+				{:else}
+					<p class="text-center text-gray-500 text-lg">Seu carrinho está vazio.</p>
+				{/if}
 			</div>
-			<Separator class="my-2 w-80" />
 
 			<div class="flex w-[56%] gap-2 py-2">
 				<Input
@@ -193,7 +237,7 @@
 			<div class="flex flex-col gap-2">
 				<div class="flex w-[56%] justify-between text-xs">
 					<h1>Subtotal</h1>
-					<Label>10.90</Label>
+					<Label>{formatarMoeda(itens.reduce((total, item) => total + (parseFloat(item.valor) * item.quantidade), 0).toFixed(2))}</Label>
 				</div>
 				<div class="flex w-[56%] justify-between text-xs">
 					<h1>Frete</h1>
@@ -201,7 +245,7 @@
 				</div>
 				<div class="flex w-[56%] justify-between text-xs">
 					<h1>Total</h1>
-					<Label>20.90</Label>
+					<Label>{formatarMoeda((itens.reduce((total, item) => total + (parseFloat(item.valor) * item.quantidade), 0) + 10).toFixed(2))}</Label>
 				</div>
 			</div>
 		</div>
