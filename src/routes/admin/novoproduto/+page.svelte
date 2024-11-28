@@ -34,14 +34,14 @@
 	});
 </script>
 
-<div class="flex h-full w-full gap-32 px-20 py-32">
+<div class="flex h-full w-full gap-32 px-20 py-10">
 	<div class="w-1/2">
 		<Tabs.Root value="novoProduto">
 			<Tabs.List class="flex w-full ">
 				<Tabs.Trigger value="novoProduto" class="w-1/2">Novo Produto</Tabs.Trigger>
 				<Tabs.Trigger value="promocao" class="w-1/2">Criar Promoção</Tabs.Trigger>
 			</Tabs.List>
-			<Tabs.Content value="novoProduto" class="h-screen">
+			<Tabs.Content value="novoProduto" class="h-full">
 				<Card.Root>
 					<form action="?/criarProduto" method="post" enctype="multipart/form-data">
 						<Card.Header>

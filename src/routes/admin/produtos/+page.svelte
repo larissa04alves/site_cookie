@@ -26,7 +26,7 @@
 	console.log(cookie);
 </script>
 
-<div class="grid grid-cols-1 gap-7 py-24 md:grid-cols-2 lg:grid-cols-3">
+<div class="grid grid-cols-1 gap-7 py-10 md:grid-cols-2 lg:grid-cols-3">
 	{#each cookie as produto}
 		<div class="mx-auto flex w-full max-w-xs flex-col items-center justify-center">
 			<div
@@ -98,7 +98,7 @@
 					>
 						<div>
 							<Button variant="ghost" class="px-0 py-0 hover:bg-transparent">
-								<SheetProdutos />
+								<SheetProdutos {produto} />
 							</Button>
 							<Button
 								variant="ghost"

@@ -3,29 +3,100 @@
 	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import Textarea from './ui/textarea/textarea.svelte';
+	import { Pencil } from 'lucide-svelte';
+	import { toast } from 'svelte-sonner';
+	import { enhance } from '$app/forms';
+
+	export let produto: any;
+
+	let nomeProduto = produto.nome || '';
+	let valorProduto = produto.valor || '';
+	let descricao = produto.descricao || '';
+	let arquivo = produto.arquivo || '';
 </script>
 
 <Sheet.Root>
-	<Sheet.Trigger class={buttonVariants({ variant: 'ghost' })}>Open</Sheet.Trigger>
-	<Sheet.Content side="right">
+	<Sheet.Trigger
+		class="{buttonVariants({
+			variant: 'ghost'
+		})} border-transparent text-brownCrayola hover:bg-transparent hover:text-brownNose"
+	>
+		<Pencil size="20" />
+	</Sheet.Trigger>
+	<Sheet.Content side="right" class="flex flex-col items-start gap-6 bg-seashell">
 		<Sheet.Header>
-			<Sheet.Title>Edit profile</Sheet.Title>
-			<Sheet.Description>
-				Make changes to your profile here. Click save when you're done.
-			</Sheet.Description>
+			<Sheet.Title>Editar produto</Sheet.Title>
 		</Sheet.Header>
-		<div class="grid gap-4 py-4">
-			<div class="grid grid-cols-4 items-center gap-4">
-				<Label for="name" class="text-right">Name</Label>
-				<Input id="name" value="Pedro Duarte" class="col-span-3" />
+		<form
+			method="post"
+			action="?/editarProduto"
+			use:enhance={({ formData }) => {
+				return async ({ result }) => {
+					if (result.status === 200) {
+						toast.success('Produto atualizado!', {
+							description: 'As alterações foram salvas com sucesso.'
+						});
+						// Atualiza os valores locais para refletir as alterações
+						produto.nome = formData.get('nome');
+						produto.valor = formData.get('valor');
+						produto.descricao = formData.get('descricao');
+					} else {
+						toast.error('Erro ao salvar alterações!', {
+							description: 'Não foi possível salvar as alterações.'
+						});
+					}
+				};
+			}}
+		>
+			<div class="flex w-full flex-col items-start justify-start gap-3">
+				<div class="flex w-5/6 flex-col items-start gap-2">
+					<Label for="nome" class="text-right">Nome:</Label>
+					<Input
+						name="nome"
+						class="border-brownNose"
+						placeholder="Nome do Produto"
+						bind:value={nomeProduto}
+					/>
+				</div>
+				<div class="flex w-5/6 flex-col items-start gap-3">
+					<Label for="valor" class="text-right">Valor:</Label>
+					<Input
+						name="valor"
+						class="border-brownNose"
+						placeholder="Valor do Produto"
+						bind:value={valorProduto}
+					/>
+				</div>
+				<div class="flex w-5/6 flex-col items-start gap-3">
+					<Label for="descricao" class="text-right">Descrição:</Label>
+					<Textarea
+						name="descricao"
+						class="border-brownNose"
+						placeholder="Descrição do Produto"
+						bind:value={descricao}
+					/>
+				</div>
+				<div class="w-5/6">
+					<label for="arquivo" class="text-sm font-medium">Adicionar Imagem</label>
+					<input
+						type="file"
+						name="arquivo"
+						accept=".jpg, .jpeg, .png, .webp"
+						class="mt-2 block w-full rounded-lg border border-gray-200 bg-transparent px-3 py-2 text-sm text-gray-600 placeholder-gray-400/70 file:rounded-full file:border-none file:bg-gray-200 file:px-4 file:py-1 file:text-sm file:text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+					/>
+				</div>
 			</div>
-			<div class="grid grid-cols-4 items-center gap-4">
-				<Label for="username" class="text-right">Username</Label>
-				<Input id="username" value="@peduarte" class="col-span-3" />
-			</div>
-		</div>
-		<Sheet.Footer>
-			<Sheet.Close class={buttonVariants({ variant: 'outline' })}>Save changes</Sheet.Close>
-		</Sheet.Footer>
+			<Sheet.Footer>
+				<Button
+					type="submit"
+					class="{buttonVariants({ variant: 'outline' })} bg-brownCrayola hover:bg-brownNose"
+				>
+					Salvar
+				</Button>
+			</Sheet.Footer>
+			<input type="hidden" name="codigo" value={produto.codigo} />
+		</form>
 	</Sheet.Content>
 </Sheet.Root>

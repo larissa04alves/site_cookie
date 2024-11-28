@@ -11,7 +11,7 @@
 	<div class="flex flex-col items-center justify-center gap-10">
 		<img class="w-28 select-none" src={logo} alt="Logo da loja" />
 
-		<div class="flex w-[90%] flex-col gap-4">
+		<div class="flex w-[95%] flex-col gap-4">
 			<Button
 				href="/admin/novoproduto"
 				variant="ghost"

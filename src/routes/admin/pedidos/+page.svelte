@@ -1,10 +1,10 @@
-<!-- <script lang="ts">
+<script lang="ts">
 	import { Check } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import SheetPedidos from '$lib/components/SheetPedidos.svelte';
+	import SheetProdutos from '$lib/components/SheetProdutos.svelte';
 </script>
 
-<section class="container mx-auto px-4 pt-36">
+<section class="container mx-auto px-4 pt-10">
 	<div class="flex flex-col">
 		<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -120,9 +120,7 @@
 								<td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500"
 									>Entregar na casa amarela</td
 								>
-								<td>
-									<SheetPedidos />
-								</td>
+								<!-- <td> <SheetProdutos /></td> -->
 							</tr>
 						</tbody>
 					</table>
@@ -190,4 +188,4 @@
 			</svg>
 		</a>
 	</div>
-</section> -->
+</section>
