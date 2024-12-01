@@ -44,8 +44,8 @@ export const actions: Actions = {
 	editarProduto: async ({ request }) => {
 		const data = await request.formData();
 		const codigo = data.get('codigo');
-		const nomeProduto = data.get('nomeProduto');
-		const valorProduto = data.get('valorProduto');
+		const nomeProduto = data.get('nome');
+		const valorProduto = data.get('valor');
 		const descricao = data.get('descricao');
 		const arquivo = data.get('arquivo') as File;
 

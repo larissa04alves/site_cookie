@@ -34,11 +34,11 @@
 			action="?/editarProduto"
 			use:enhance={({ formData }) => {
 				return async ({ result }) => {
+					console.log('Resultado do envio:', result); // Verifique o status
 					if (result.status === 200) {
 						toast.success('Produto atualizado!', {
 							description: 'As alterações foram salvas com sucesso.'
 						});
-						// Atualiza os valores locais para refletir as alterações
 						produto.nome = formData.get('nome');
 						produto.valor = formData.get('valor');
 						produto.descricao = formData.get('descricao');
@@ -91,6 +91,7 @@
 			<Sheet.Footer>
 				<Button
 					type="submit"
+					formaction="?/editarProduto"
 					class="{buttonVariants({ variant: 'outline' })} bg-brownCrayola hover:bg-brownNose"
 				>
 					Salvar
