@@ -10,24 +10,37 @@
 		dateStyle: 'long'
 	});
 
-	let value = $state<DateValue | undefined>();
-	let contentRef = $state<HTMLElement | null>(null);
+	let value: DateValue | undefined;
+	let dataFim = '';
+
+	const formatDate = (date: DateValue | undefined) => {
+		return date ? date.toDate(getLocalTimeZone()).toISOString().split('T')[0] : '';
+	};
+
+	let contentRef: HTMLElement | null = null;
+
+	$effect(() => {
+		dataFim = formatDate(value);
+	});
 </script>
 
-<Popover.Root>
-	<Popover.Trigger
-		class={cn(
-			buttonVariants({
-				variant: 'outline',
-				class: 'w-[280px] justify-start text-left font-normal'
-			}),
-			!value && 'text-muted-foreground'
-		)}
-	>
-		<CalendarIcon class="mr-2 size-4" />
-		{value ? df.format(value.toDate(getLocalTimeZone())) : 'Pick a date'}
-	</Popover.Trigger>
-	<Popover.Content bind:ref={contentRef} class="w-auto p-0">
-		<Calendar type="single" bind:value />
-	</Popover.Content>
-</Popover.Root>
+<div>
+	<Popover.Root>
+		<Popover.Trigger
+			class={cn(
+				buttonVariants({
+					variant: 'outline',
+					class: 'w-full justify-start text-left font-normal'
+				}),
+				!value && 'text-muted-foreground'
+			)}
+		>
+			<CalendarIcon class="mr-2 size-4" />
+			{value ? df.format(value.toDate(getLocalTimeZone())) : 'Selecione uma data'}
+		</Popover.Trigger>
+		<Popover.Content bind:ref={contentRef} class="w-auto p-0">
+			<Calendar type="single" bind:value />
+		</Popover.Content>
+	</Popover.Root>
+	<input type="hidden" name="dataFim" value={dataFim} />
+</div>

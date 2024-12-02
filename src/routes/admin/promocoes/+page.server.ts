@@ -1,4 +1,6 @@
-// import db from '$lib/database/connectdb';
+// import { db } from '$lib/server/db/index';
+// import { promocoes } from '$lib/server/db/schema';
+// import { eq } from 'drizzle-orm';
 // import type { Actions } from './$types';
 
 // export const actions: Actions = {

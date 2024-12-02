@@ -5,13 +5,10 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
-	import cookie from '$lib/img/cookiebranco.png';
 	import RadioPix from '$lib/components/RadioPix.svelte';
 	import RadioFrete from '$lib/components/RadioFrete.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { float } from 'drizzle-orm/mysql-core';
-
 	type Item = {
 		id: string;
 		nome: string;
@@ -207,12 +204,12 @@
 					{#each itens as item}
 							<!-- <img class="w-[12%] rounded-md" src={cookie} alt="produto" /> -->
 							<div class="flex w-[56%] justify-between text-xs">
-								
+
 									<h1 class="font-semibold">{item.quantidade} x {item.nome}</h1>
 									<p class="flex text-sm font-semibold">{formatarMoeda(item.valor)}{item.quantidade > 1 ? ' = ' + formatarMoeda(parseFloat(item.valor) * item.quantidade) : ''}</p>
-								
+
 							</div>
-						
+
 						<Separator class="my-2  w-[56%]" />
 					{/each}
 				{:else}

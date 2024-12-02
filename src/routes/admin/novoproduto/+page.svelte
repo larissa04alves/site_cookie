@@ -168,9 +168,15 @@
 									/>
 								</div>
 							</div>
-							<div class=" flex justify-between">
-								<DatepickerInicio />
-								<DatepickerFinal />
+							<div class=" flex w-full gap-10">
+								<div class="flex w-1/2 flex-col gap-1">
+									<Label for="estoque">Data inicial</Label>
+									<DatepickerInicio />
+								</div>
+								<div class="flex w-1/2 flex-col gap-1">
+									<Label for="estoque">Data final</Label>
+									<DatepickerFinal />
+								</div>
 							</div>
 							<div class="space-y-1">
 								<Label for="name">Descrição</Label>
