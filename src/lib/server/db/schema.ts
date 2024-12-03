@@ -10,7 +10,6 @@ import {
 	date
 } from 'drizzle-orm/pg-core';
 
-// Tabela unificada 'user'
 export const user = pgTable('user', {
 	id: varchar('id', { length: 255 }).primaryKey(),
 	provider: varchar('provider', { length: 50 }).notNull(),
@@ -25,7 +24,6 @@ export const user = pgTable('user', {
 	passwordHash: text('password_hash').notNull()
 });
 
-// Tabela 'session' com referência atualizada
 export const session = pgTable('session', {
 	id: text('id').primaryKey(),
 	userId: varchar('user_id', { length: 255 })
@@ -34,7 +32,6 @@ export const session = pgTable('session', {
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
 });
 
-// Outras tabelas permanecem inalteradas
 export const promocao = pgTable('promocao', {
 	codigo: serial('codigo').primaryKey(),
 	nome: varchar('nome', { length: 255 }).notNull(),
@@ -108,19 +105,15 @@ export const enderecoCliente = pgTable('endereco_cliente', {
 	complemento: varchar('complemento', { length: 100 })
 });
 
-// Exportação dos tipos inferidos
 export type User = typeof user.$inferSelect;
 export type Session = typeof session.$inferSelect;
 
-// Para Promocao, defina tipos separados
 export type PromocaoSelect = typeof promocao.$inferSelect;
 export type PromocaoInsert = typeof promocao.$inferInsert;
 
-// Faça o mesmo para Produto, se necessário
 export type ProdutoSelect = typeof produto.$inferSelect;
 export type ProdutoInsert = typeof produto.$inferInsert;
 
-// ------------
 export type Pedido = typeof pedido.$inferSelect;
 export type PedidoItem = typeof pedidoItem.$inferSelect;
 export type Cliente = typeof cliente.$inferSelect;

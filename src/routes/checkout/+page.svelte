@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import logo from '$lib/img/logoCookiesMo.png';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -9,6 +8,7 @@
 	import RadioFrete from '$lib/components/RadioFrete.svelte';
 	import { ArrowLeft } from 'lucide-svelte';
 	import { onMount } from 'svelte';
+
 	type Item = {
 		id: string;
 		nome: string;
@@ -17,6 +17,7 @@
 	};
 
 	let itens: Array<Item> = [];
+	let showQRCode = false;
 
 	const carregarItens = () => {
 		const storedItems = sessionStorage.getItem('listItens');
@@ -34,16 +35,18 @@
 	const formatarMoeda = (valor: number | string) => {
 		return new Intl.NumberFormat('pt-BR', {
 			style: 'currency',
-			currency: 'BRL',
+			currency: 'BRL'
 		}).format(typeof valor === 'string' ? parseFloat(valor) : valor);
 	};
 
-	onMount(() =>{
+	onMount(() => {
 		carregarItens();
 	});
 
+	const handlePagarAgora = () => {
+		showQRCode = true;
+	};
 </script>
-
 
 <div class="flex h-full w-full flex-col bg-seashell font-montserrat">
 	<div class="flex h-full w-[53%] items-center justify-between">
@@ -186,34 +189,36 @@
 				<h1 class="font-montserrat text-xl font-semibold text-brownNose">Forma de frete</h1>
 				<RadioFrete />
 			</div>
-			<div class="flex flex-col gap-2">
+			<div class="flex h-full w-full flex-col gap-5 py-5">
 				<h1 class="font-montserrat text-xl font-semibold text-brownNose">Pagamento</h1>
-				<div class="flex flex-col gap-1">
-					<RadioPix />
-					<h1 class="text-center text-xs text-zinc-500">
-						Clique em "Pagar agora" para finalizar a compra
-					</h1>
-				</div>
-				<Button class="my-5 bg-brownNose font-montserrat hover:bg-brownCrayola">Pagar agora</Button>
+				<RadioPix {showQRCode} />
+				<Button
+					onclick={handlePagarAgora}
+					class="my-5 bg-brownNose font-montserrat hover:bg-brownCrayola"
+				>
+					Pagar agora
+				</Button>
 			</div>
 		</div>
-
-		<div class="flex h-screen w-1/2 flex-col bg-ghostWhite px-24">
-			<div class="flex flex-col gap-2 mt-10">
+		<!-- parte 2 -->
+		<div class="h-min-[100%] flex w-1/2 flex-col bg-ghostWhite px-24">
+			<div class="mt-10 flex flex-col gap-2">
 				{#if itens.length > 0}
 					{#each itens as item}
-							<!-- <img class="w-[12%] rounded-md" src={cookie} alt="produto" /> -->
-							<div class="flex w-[56%] justify-between text-xs">
-
-									<h1 class="font-semibold">{item.quantidade} x {item.nome}</h1>
-									<p class="flex text-sm font-semibold">{formatarMoeda(item.valor)}{item.quantidade > 1 ? ' = ' + formatarMoeda(parseFloat(item.valor) * item.quantidade) : ''}</p>
-
-							</div>
+						<!-- <img class="w-[12%] rounded-md" src={cookie} alt="produto" /> -->
+						<div class="flex w-[56%] justify-between text-xs">
+							<h1 class="font-semibold">{item.quantidade} x {item.nome}</h1>
+							<p class="flex text-sm font-semibold">
+								{formatarMoeda(item.valor)}{item.quantidade > 1
+									? ' = ' + formatarMoeda(parseFloat(item.valor) * item.quantidade)
+									: ''}
+							</p>
+						</div>
 
 						<Separator class="my-2  w-[56%]" />
 					{/each}
 				{:else}
-					<p class="text-center text-gray-500 text-lg">Seu carrinho está vazio.</p>
+					<p class="text-center text-lg text-gray-500">Seu carrinho está vazio.</p>
 				{/if}
 			</div>
 
@@ -234,7 +239,13 @@
 			<div class="flex flex-col gap-2">
 				<div class="flex w-[56%] justify-between text-xs">
 					<h1>Subtotal</h1>
-					<Label>{formatarMoeda(itens.reduce((total, item) => total + (parseFloat(item.valor) * item.quantidade), 0).toFixed(2))}</Label>
+					<Label
+						>{formatarMoeda(
+							itens
+								.reduce((total, item) => total + parseFloat(item.valor) * item.quantidade, 0)
+								.toFixed(2)
+						)}</Label
+					>
 				</div>
 				<div class="flex w-[56%] justify-between text-xs">
 					<h1>Frete</h1>
@@ -242,7 +253,14 @@
 				</div>
 				<div class="flex w-[56%] justify-between text-xs">
 					<h1>Total</h1>
-					<Label>{formatarMoeda((itens.reduce((total, item) => total + (parseFloat(item.valor) * item.quantidade), 0) + 10).toFixed(2))}</Label>
+					<Label
+						>{formatarMoeda(
+							(
+								itens.reduce((total, item) => total + parseFloat(item.valor) * item.quantidade, 0) +
+								10
+							).toFixed(2)
+						)}</Label
+					>
 				</div>
 			</div>
 		</div>
