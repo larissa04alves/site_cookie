@@ -32,6 +32,7 @@
 		<form
 			method="post"
 			action="?/editarProduto"
+			enctype="multipart/form-data"
 			use:enhance={({ formData }) => {
 				return async ({ result }) => {
 					console.log('Resultado do envio:', result); // Verifique o status
