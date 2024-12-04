@@ -9,15 +9,41 @@
 	import { toast } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
 
-	export let produto: any;
+	// Definindo interface para o produto
+	interface Produto {
+		codigo: number;
+		nome: string;
+		valor: string;
+		descricao: string;
+		arquivo?: string;
+		estoque: number;
+	}
 
+	export let produto: Produto;
+	export let onUpdate: (updatedProduto: Produto) => void;
+
+	let isSheetOpen = false;
 	let nomeProduto = produto.nome || '';
 	let valorProduto = produto.valor || '';
 	let descricao = produto.descricao || '';
-	let arquivo = produto.arquivo || '';
+	let arquivoPreview = produto.arquivo || '';
+	let novoArquivo: File | null = null;
+
+	const handleFileChange = (event: Event) => {
+		const input = event.target as HTMLInputElement;
+		if (input.files && input.files[0]) {
+			novoArquivo = input.files[0];
+			// Criar preview da imagem
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				arquivoPreview = e.target?.result as string;
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	};
 </script>
 
-<Sheet.Root>
+<Sheet.Root bind:open={isSheetOpen}>
 	<Sheet.Trigger
 		class="{buttonVariants({
 			variant: 'ghost'
@@ -35,14 +61,21 @@
 			enctype="multipart/form-data"
 			use:enhance={({ formData }) => {
 				return async ({ result }) => {
-					console.log('Resultado do envio:', result); // Verifique o status
 					if (result.status === 200) {
 						toast.success('Produto atualizado!', {
 							description: 'As alterações foram salvas com sucesso.'
 						});
-						produto.nome = formData.get('nome');
-						produto.valor = formData.get('valor');
-						produto.descricao = formData.get('descricao');
+						
+						const updatedProduto = {
+							...produto,
+							nome: formData.get('nome') as string,
+							valor: formData.get('valor') as string,
+							descricao: formData.get('descricao') as string,
+							arquivo: arquivoPreview || produto.arquivo
+						};
+						
+						onUpdate(updatedProduto);
+						isSheetOpen = false;
 					} else {
 						toast.error('Erro ao salvar alterações!', {
 							description: 'Não foi possível salvar as alterações.'
@@ -53,7 +86,7 @@
 		>
 			<div class="flex w-full flex-col items-start justify-start gap-3">
 				<div class="flex w-5/6 flex-col items-start gap-2">
-					<Label for="nome" class="text-right">Nome:</Label>
+					<Label for="nome">Nome:</Label>
 					<Input
 						name="nome"
 						class="border-brownNose"
@@ -62,7 +95,7 @@
 					/>
 				</div>
 				<div class="flex w-5/6 flex-col items-start gap-3">
-					<Label for="valor" class="text-right">Valor:</Label>
+					<Label for="valor">Valor:</Label>
 					<Input
 						name="valor"
 						class="border-brownNose"
@@ -71,7 +104,7 @@
 					/>
 				</div>
 				<div class="flex w-5/6 flex-col items-start gap-3">
-					<Label for="descricao" class="text-right">Descrição:</Label>
+					<Label for="descricao">Descrição:</Label>
 					<Textarea
 						name="descricao"
 						class="border-brownNose"
@@ -80,19 +113,23 @@
 					/>
 				</div>
 				<div class="w-5/6">
-					<label for="arquivo" class="text-sm font-medium">Adicionar Imagem</label>
+					<Label for="arquivo">Adicionar Imagem</Label>
 					<input
 						type="file"
 						name="arquivo"
+						id="arquivo"
 						accept=".jpg, .jpeg, .png, .webp"
+						on:change={handleFileChange}
 						class="mt-2 block w-full rounded-lg border border-gray-200 bg-transparent px-3 py-2 text-sm text-gray-600 placeholder-gray-400/70 file:rounded-full file:border-none file:bg-gray-200 file:px-4 file:py-1 file:text-sm file:text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
 					/>
+					{#if arquivoPreview}
+						<img src={arquivoPreview} alt="Preview" class="mt-2 h-32 w-32 object-cover" />
+					{/if}
 				</div>
 			</div>
 			<Sheet.Footer>
 				<Button
 					type="submit"
-					formaction="?/editarProduto"
 					class="{buttonVariants({ variant: 'outline' })} bg-brownCrayola hover:bg-brownNose"
 				>
 					Salvar

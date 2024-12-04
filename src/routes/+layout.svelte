@@ -3,17 +3,18 @@
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import { page } from '$app/stores';
-	import { ModeWatcher } from 'mode-watcher';
+	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import { derived } from 'svelte/store';
 
 	// Variável derivada que acompanha o caminho atual da URL
 	const linkAtual = derived(page, ($page) => $page.url.pathname);
+
+	setMode('light');
 </script>
 
 <Toaster richColors />
 
-<ModeWatcher />
 <ModeWatcher defaultMode="light" />
 
 {#if $linkAtual === '/'}

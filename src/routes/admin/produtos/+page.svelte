@@ -98,7 +98,14 @@
 					>
 						<div>
 							<Button variant="ghost" class="px-0 py-0 hover:bg-transparent">
-								<SheetProdutos {produto} />
+								<SheetProdutos
+									{produto}
+									onUpdate={(updatedProduto) => {
+										cookie = cookie.map((p) =>
+											p.codigo === updatedProduto.codigo ? updatedProduto : p
+										);
+									}}
+								/>
 							</Button>
 							<Button
 								variant="ghost"
