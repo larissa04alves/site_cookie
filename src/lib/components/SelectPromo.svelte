@@ -1,23 +1,19 @@
 <script lang="ts">
 	import * as Select from '$lib/components/ui/select/index.js';
+	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
 
-	// const fruits = [
-	// 	{ value: 'apple', label: 'Apple' },
-	// 	{ value: 'banana', label: 'Banana' },
-	// 	{ value: 'blueberry', label: 'Blueberry' },
-	// 	{ value: 'grapes', label: 'Grapes' },
-	// 	{ value: 'pineapple', label: 'Pineapple' }
-	// ];
+	let cookies = writable<Array<any>>([]);
+	let value = writable('');
+	let triggerContent = writable('Selecione o produto');
 
-	//
-
-	let cookie: Array<any> = [];
+	// Fetch cookies on mount
 	onMount(async () => {
 		try {
 			const res = await fetch('/api/listarProdutos');
 			if (res.ok) {
-				cookie = await res.json();
+				const data = await res.json();
+				cookies.set(data);
 			} else {
 				console.error('Erro ao carregar os produtos');
 			}
@@ -26,21 +22,25 @@
 		}
 	});
 
-	let value = $state('');
-
-	const triggerContent = $derived(
-		cookie.find((f) => f.value === value)?.label ?? 'Selecione o produto'
-	);
+	// Update the trigger content when the value changes
+	value.subscribe((val) => {
+		cookies.subscribe((cookieList) => {
+			const selected = cookieList.find((f) => f.nome === val);
+			triggerContent.set(selected?.nome ?? 'Selecione o produto');
+		});
+	});
 </script>
 
-<Select.Root type="single" name="cookieEscolhido" bind:value>
+<Select.Root bind:value={$value} type="single" name="cookieEscolhido">
 	<Select.Trigger class="w-[180px]">
-		{triggerContent}
+		<span>{$triggerContent}</span>
 	</Select.Trigger>
 	<Select.Content>
 		<Select.Group>
-			{#each cookie as produto}
-				<Select.Item value={produto.nome} label={produto.nome}>{produto.nome}</Select.Item>
+			{#each $cookies as produto}
+				<Select.Item value={produto.nome} label={produto.nome}>
+					{produto.nome}
+				</Select.Item>
 			{/each}
 		</Select.Group>
 	</Select.Content>
