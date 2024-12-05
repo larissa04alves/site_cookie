@@ -10,14 +10,13 @@
 		dateStyle: 'long'
 	});
 
-	let value: DateValue | undefined;
+	let value = $state<DateValue | undefined>();
+	// svelte-ignore non_reactive_update
 	let dataFim = '';
 
 	const formatDate = (date: DateValue | undefined) => {
 		return date ? date.toDate(getLocalTimeZone()).toISOString().split('T')[0] : '';
 	};
-
-	let contentRef: HTMLElement | null = null;
 
 	$effect(() => {
 		dataFim = formatDate(value);
@@ -38,7 +37,7 @@
 			<CalendarIcon class="mr-2 size-4" />
 			{value ? df.format(value.toDate(getLocalTimeZone())) : 'Selecione uma data'}
 		</Popover.Trigger>
-		<Popover.Content bind:ref={contentRef} class="w-auto p-0">
+		<Popover.Content class="w-auto p-0">
 			<Calendar type="single" bind:value />
 		</Popover.Content>
 	</Popover.Root>

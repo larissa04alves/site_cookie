@@ -12,12 +12,12 @@
 	import DatepickerInicio from '$lib/components/DatePicker-inicio2.svelte';
 	import DatepickerFinal from '$lib/components/DatePicker-final2.svelte';
 
-	let selectPromos = [''];
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let selectPromo = [''];
+
 	let cookie: Array<any> = [];
 
 	function addCookie() {
-		selectPromos = [...selectPromos, ''];
+		selectPromo = [...selectPromo, ''];
 	}
 
 	onMount(async () => {
@@ -138,8 +138,11 @@
 									<SelectPromo />
 								</div>
 								<Button
-									class=" w-1/3 gap-2 bg-seashell text-xs text-black hover:bg-seashell"
-									onclick={addCookie}
+									class="w-1/3 gap-2 bg-seashell text-xs text-black hover:bg-seashell"
+									onclick={(event) => {
+										event.preventDefault();
+										addCookie();
+									}}
 								>
 									<Plus class="w-4" />Adicionar Cookie
 								</Button>
