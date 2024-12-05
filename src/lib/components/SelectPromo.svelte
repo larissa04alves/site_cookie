@@ -3,11 +3,12 @@
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
 
+	export let name: string;
+
 	let cookies = writable<Array<any>>([]);
 	let value = writable('');
 	let triggerContent = writable('Selecione o produto');
 
-	// Fetch cookies on mount
 	onMount(async () => {
 		try {
 			const res = await fetch('/api/listarProdutos');
@@ -22,7 +23,6 @@
 		}
 	});
 
-	// Update the trigger content when the value changes
 	value.subscribe((val) => {
 		cookies.subscribe((cookieList) => {
 			const selected = cookieList.find((f) => f.nome === val);
@@ -31,7 +31,7 @@
 	});
 </script>
 
-<Select.Root bind:value={$value} type="single" name="cookieEscolhido">
+<Select.Root bind:value={$value} type="single" {name}>
 	<Select.Trigger class="w-[180px]">
 		<span>{$triggerContent}</span>
 	</Select.Trigger>

@@ -12,12 +12,12 @@
 	import DatepickerInicio from '$lib/components/DatePicker-inicio2.svelte';
 	import DatepickerFinal from '$lib/components/DatePicker-final2.svelte';
 
-	let selectPromo = [''];
+	let selectPromo = [0];
 
 	let cookie: Array<any> = [];
 
 	function addCookie() {
-		selectPromo = [...selectPromo, ''];
+		selectPromo = [...selectPromo, selectPromo.length];
 	}
 
 	onMount(async () => {
@@ -135,7 +135,9 @@
 							<Label for="current">Selecione o produto desejado</Label>
 							<div class="flex h-full w-full justify-start gap-6">
 								<div class="flex w-2/3 flex-col gap-2">
-									<SelectPromo />
+									{#each selectPromo as _, index (index)}
+										<SelectPromo name={`cookieEscolhido${index}`} />
+									{/each}
 								</div>
 								<Button
 									class="w-1/3 gap-2 bg-seashell text-xs text-black hover:bg-seashell"
