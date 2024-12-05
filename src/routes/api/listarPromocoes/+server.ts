@@ -4,8 +4,15 @@ import { promocao } from '$lib/server/db/schema';
 import { asc } from 'drizzle-orm';
 
 export const GET: RequestHandler = async () => {
-	const listarPromocoes = await db.select().from(promocao).orderBy(asc(promocao.codigo));
-	console.log(listarPromocoes);
+	const listarPromocoes = await db
+		.select({
+			nomePromo: promocao.nome,
+			arquivoPromo: promocao.arquivo,
+			estoquePromo: promocao.estoque,
+			valorPromo: promocao.valor
+		})
+		.from(promocao)
+		.orderBy(asc(promocao.codigo));
 	return new Response(JSON.stringify(listarPromocoes), {
 		headers: {
 			'content-type': 'application/json'

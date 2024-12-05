@@ -49,8 +49,6 @@ export const actions: Actions = {
 		const descricaoPromo = data.get('descricao');
 		const arquivoPromo = data.get('arquivo') as File;
 
-		console.log('Recebido para edição:', { codigo, nomePromo, valorPromo, descricaoPromo });
-
 		if (!nomePromo || !valorPromo || !descricaoPromo) {
 			return {
 				status: 400,

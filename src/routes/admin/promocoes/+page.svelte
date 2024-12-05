@@ -1,29 +1,27 @@
-<!-- <script lang="ts">
+<script lang="ts">
 	import CounterInput from '$lib/components/CounterInput.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Trash2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import { enhance } from '$app/forms';
-	import SheetProdutos from '$lib/components/SheetProdutos.svelte';
+	import SheetPromocoes from '$lib/components/SheetPromocoes.svelte';
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let cookie: Array<any> = [];
 
 	onMount(async () => {
 		try {
-			const res = await fetch('/api/listarProdutos');
+			const res = await fetch('/api/listarPromocoes');
 			if (res.ok) {
 				cookie = await res.json();
 			} else {
-				console.error('Erro ao carregar os produtos');
+				console.error('Erro ao carregar as promoções');
 			}
 		} catch (error) {
 			console.error('Erro de rede:', error);
 		}
 	});
-
-	console.log(cookie);
 </script>
 
 <div class="grid grid-cols-1 gap-7 py-10 md:grid-cols-2 lg:grid-cols-3">
@@ -31,17 +29,17 @@
 		<div class="mx-auto flex w-full max-w-xs flex-col items-center justify-center">
 			<div
 				class="h-52 w-full rounded-lg bg-gray-300 bg-cover bg-center object-fill shadow-md"
-				style="background-image: url({produto.arquivo});"
+				style="background-image: url({produto.arquivoPromo});"
 			></div>
 			<div class="-mt-10 w-56 overflow-hidden rounded-lg bg-white shadow-lg md:w-64">
-				<h3 class="py-2 text-center font-bold uppercase text-gray-800">{produto.nome}</h3>
+				<h3 class="py-2 text-center font-bold uppercase text-gray-800">{produto.nomePromo}</h3>
 
-
+				<!-- Formulário para editar a quantidade -->
 				<form
 					method="post"
 					action="?/editarQuantidade"
 					use:enhance={({ formData }) => {
-						const quantidadeAtualizada = Number(formData.get('estoque'));
+						const quantidadeAtualizada = Number(formData.get('estoquePromo'));
 
 						return async ({ result }) => {
 							if (result.status === 200) {
@@ -59,7 +57,7 @@
 				>
 					<div class="flex items-center justify-between bg-seashell px-3 py-2">
 						<span class="text-sm font-semibold text-gray-800">Quant.</span>
-						<CounterInput bind:count={produto.estoque} />
+						<CounterInput bind:count={produto.estoquePromo} />
 						<Button
 							type="submit"
 							formaction="?/editarQuantidade"
@@ -72,13 +70,13 @@
 					<input type="hidden" name="codigo" value={produto.codigo} />
 				</form>
 
-
+				<!-- Formulário para excluir o produto -->
 				<div class="flex items-center justify-between bg-seashell px-3 py-2">
-					<span class="font-semibold text-gray-800">R$ {produto.valor}</span>
+					<span class="font-semibold text-gray-800">R$ {produto.valorPromo}</span>
 					<form
 						class="flex gap-4"
 						method="post"
-						action="?/excluirProduto"
+						action="?/excluirPromocao"
 						use:enhance={() => {
 							return async ({ result }) => {
 								console.log('deletado', result);
@@ -98,7 +96,14 @@
 					>
 						<div>
 							<Button variant="ghost" class="px-0 py-0 hover:bg-transparent">
-								<SheetProdutos {produto} />
+								<!-- <SheetPromocoes
+									{produto}
+									onUpdate={(updatedProduto) => {
+										cookie = cookie.map((p) =>
+											p.codigo === updatedProduto.codigo ? updatedProduto : p
+										);
+									}}
+								/> -->
 							</Button>
 							<Button
 								variant="ghost"
@@ -116,4 +121,3 @@
 		</div>
 	{/each}
 </div>
- -->
