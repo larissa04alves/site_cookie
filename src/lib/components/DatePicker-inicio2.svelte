@@ -1,26 +1,19 @@
 <script lang="ts">
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
-	import { DateFormatter, type DateValue, getLocalTimeZone } from '@internationalized/date';
-	import { cn } from '$lib/utils.js';
-	import { buttonVariants } from '$lib/components/ui/button/index.js';
-	import { Calendar } from '$lib/components/ui/calendar/index.js';
+	import { Calendar } from 'lucide-svelte';
 	import * as Popover from '$lib/components/ui/popover/index.js';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
+	import { cn } from '$lib/utils.js';
+	import Calendar2 from '$lib/components/ui/calendar/calendar.svelte';
+	import { DateFormatter } from '@internationalized/date';
+	import { getLocalTimeZone } from '@internationalized/date';
 
-	const df = new DateFormatter('en-US', {
-		dateStyle: 'long'
+	export let value: any;
+
+	const df = new DateFormatter('pt-BR', {
+		dateStyle: 'medium'
 	});
 
-	let value = $state<DateValue | undefined>();
-	// svelte-ignore non_reactive_update
-	let dataInicio = '';
-
-	const formatDate = (date: DateValue | undefined) => {
-		return date ? date.toDate(getLocalTimeZone()).toISOString().split('T')[0] : '';
-	};
-
-	$effect(() => {
-		dataInicio = formatDate(value);
-	});
+	$: dataFormatada = value ? value.toDate(getLocalTimeZone()).toISOString().split('T')[0] : '';
 </script>
 
 <div>
@@ -34,12 +27,12 @@
 				!value && 'text-muted-foreground'
 			)}
 		>
-			<CalendarIcon class="mr-2 size-4" />
+			<Calendar class="mr-2 size-4" />
 			{value ? df.format(value.toDate(getLocalTimeZone())) : 'Selecione uma data'}
 		</Popover.Trigger>
 		<Popover.Content class="w-auto p-0">
-			<Calendar type="single" bind:value />
+			<Calendar2 type="single" bind:value />
 		</Popover.Content>
 	</Popover.Root>
-	<input type="hidden" name="dataInicio" value={dataInicio} />
+	<input type="hidden" name="dataInicio" value={dataFormatada} />
 </div>

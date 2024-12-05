@@ -80,7 +80,8 @@ export const actions: Actions = {
 		const dataFimStr = data.get('dataFim') as string;
 		const arquivoPromo = data.get('arquivoPromo') as File;
 
-		// Verificação dos campos obrigatórios
+		console.log('Data:', data);
+		// Validação dos campos
 		if (
 			!nomePromo ||
 			!valorPromoStr ||
@@ -90,58 +91,61 @@ export const actions: Actions = {
 			!dataFimStr ||
 			!arquivoPromo
 		) {
-			return fail(400, { message: 'Campos obrigatórios não preenchidos' });
+			return fail(400, {
+				message: 'Campos obrigatórios não preenchidos',
+				error: true
+			});
 		}
 
-		// Conversão dos campos numéricos
+		// Conversão dos valores
 		const valorPromoNum = parseFloat(valorPromoStr);
 		const estoquePromo = parseInt(estoquePromoStr, 10);
 
 		if (isNaN(valorPromoNum) || isNaN(estoquePromo)) {
-			return fail(400, { message: 'Valor ou estoque inválido' });
+			return fail(400, {
+				message: 'Valor ou estoque inválido',
+				error: true
+			});
 		}
-
-		// Conversão e validação das datas
-		const dataInicio = new Date(dataInicioStr);
-		const dataFim = new Date(dataFimStr);
-
-		if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
-			return fail(400, { message: 'Datas inválidas' });
-		}
-
-		const dataInicioFormatted = dataInicio.toISOString().split('T')[0];
-		const dataFimFormatted = dataFim.toISOString().split('T')[0];
 
 		// Processamento da imagem
-		const arquivoPromoBase64 = await processarImagem(arquivoPromo);
-		if (!arquivoPromoBase64) {
-			return fail(400, { message: 'Imagem excede o tamanho máximo de 1 MB' });
+		const maxSize = 1 * 1024 * 1024; // 1MB
+		if (arquivoPromo.size > maxSize) {
+			return fail(400, {
+				message: 'Imagem excede o tamanho máximo de 1 MB',
+				error: true
+			});
 		}
 
-		// Preparar os dados para inserção
-
-		const promocaoData: PromocaoInsert = {
-			nome: nomePromo,
-			valor: valorPromoNum.toFixed(2),
-			estoque: estoquePromo,
-			descricao: descricaoPromo,
-			dataInicio: dataInicioFormatted,
-			dataFim: dataFimFormatted,
-			arquivo: arquivoPromoBase64
-		};
-
-		// Inserir a promoção no banco de dados junto com a imagem
 		try {
+			const arrayBuffer = await arquivoPromo.arrayBuffer();
+			const buffer = Buffer.from(arrayBuffer);
+			const base64Image = buffer.toString('base64');
+			const fileExtension = arquivoPromo.name.split('.').pop();
+			const arquivoBase64 = `data:image/${fileExtension};base64,${base64Image}`;
+
+			const promocaoData: PromocaoInsert = {
+				nome: nomePromo,
+				valor: valorPromoNum.toFixed(2),
+				estoque: estoquePromo,
+				descricao: descricaoPromo,
+				dataInicio: new Date(dataInicioStr).toISOString().split('T')[0],
+				dataFim: new Date(dataFimStr).toISOString().split('T')[0],
+				arquivo: arquivoBase64
+			};
+
 			await db.insert(promocao).values(promocaoData);
+
 			return {
-				status: 200,
-				body: {
-					message: 'Promoção criada com sucesso'
-				}
+				success: true,
+				message: 'Promoção criada com sucesso'
 			};
 		} catch (error) {
-			console.error('Erro ao inserir promoção:', error);
-			return fail(500, { message: 'Erro ao criar promoção' });
+			console.error('Erro ao criar promoção:', error);
+			return fail(500, {
+				message: 'Erro ao criar promoção',
+				error: true
+			});
 		}
 	}
 };

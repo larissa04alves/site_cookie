@@ -11,6 +11,8 @@
 	import { onMount } from 'svelte';
 	import DatepickerInicio from '$lib/components/DatePicker-inicio2.svelte';
 	import DatepickerFinal from '$lib/components/DatePicker-final2.svelte';
+	import { enhance } from '$app/forms';
+	import { toast } from 'svelte-sonner';
 
 	let selectPromo = [0];
 
@@ -116,7 +118,7 @@
 			</Tabs.Content>
 			<Tabs.Content value="promocao">
 				<Card.Root>
-					<form action="?/criarPromocao" method="post" enctype="multipart/form-data">
+					<form action="?/criarPromocao" method="POST" enctype="multipart/form-data">
 						<Card.Header>
 							<Card.Title>Criar promoção</Card.Title>
 						</Card.Header>
@@ -176,11 +178,11 @@
 							<div class=" flex w-full gap-10">
 								<div class="flex w-1/2 flex-col gap-1">
 									<Label for="estoque">Data inicial</Label>
-									<DatepickerInicio />
+									<DatepickerInicio value={null} />
 								</div>
 								<div class="flex w-1/2 flex-col gap-1">
 									<Label for="estoque">Data final</Label>
-									<DatepickerFinal />
+									<DatepickerFinal value={null} />
 								</div>
 							</div>
 							<div class="space-y-1">

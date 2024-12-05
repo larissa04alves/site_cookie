@@ -25,7 +25,7 @@
 
 	value.subscribe((val) => {
 		cookies.subscribe((cookieList) => {
-			const selected = cookieList.find((f) => f.nome === val);
+			const selected = cookieList.find((f) => f.codigo.toString() === val);
 			triggerContent.set(selected?.nome ?? 'Selecione o produto');
 		});
 	});
@@ -38,7 +38,7 @@
 	<Select.Content>
 		<Select.Group>
 			{#each $cookies as produto}
-				<Select.Item value={produto.nome} label={produto.nome}>
+				<Select.Item value={produto.codigo.toString()} label={produto.nome}>
 					{produto.nome}
 				</Select.Item>
 			{/each}
