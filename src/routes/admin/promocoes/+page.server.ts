@@ -2,6 +2,7 @@ import { db } from '$lib/server/db/index';
 import { promocao } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import type { Actions } from './$types';
+import { fail } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	excluirPromocao: async ({ request }) => {
@@ -49,43 +50,33 @@ export const actions: Actions = {
 		const descricaoPromo = data.get('descricao');
 		const arquivoPromo = data.get('arquivo') as File;
 
-		if (!nomePromo || !valorPromo || !descricaoPromo) {
-			return {
-				status: 400,
-				body: {
-					message: 'Campos obrigatórios não preenchidos'
-				}
-			};
+		console.log('Dados recebidos:', { codigo, nomePromo, valorPromo, descricaoPromo });
+
+		if (!codigo || !nomePromo || !valorPromo || !descricaoPromo) {
+			return fail(400, {
+				message: 'Campos obrigatórios não preenchidos'
+			});
 		}
 
-		const codigoInt = parseInt(codigo as string, 10);
-		const valor = parseFloat(valorPromo as string).toFixed(2); // Converte para string com duas casas decimais
+		try {
+			const codigoInt = parseInt(codigo as string, 10);
+			const valor = parseFloat(valorPromo as string).toFixed(2);
+			let fileBase64 = null;
 
-		let fileBase64 = null;
-
-		// Verifica se o arquivo foi enviado
-		if (arquivoPromo && arquivoPromo.size > 0) {
-			const maxSize = 1 * 1024 * 1024;
-			if (arquivoPromo.size > maxSize) {
-				return {
-					status: 400,
-					body: {
+			if (arquivoPromo && arquivoPromo.size > 0) {
+				const maxSize = 1 * 1024 * 1024;
+				if (arquivoPromo.size > maxSize) {
+					return fail(400, {
 						message: 'Imagem excede o tamanho máximo de 1 MB'
-					}
-				};
-			}
+					});
+				}
 
-			// Converte a imagem para base64
-			const arrayBuffer = await arquivoPromo.arrayBuffer();
-			const buffer = Buffer.from(arrayBuffer);
-			const base64Image = buffer.toString('base64');
-
-			// Monta o caminho do arquivoPromo
-			const fileExtension = arquivoPromo.name.split('.').pop();
-			fileBase64 = `data:image/${fileExtension};base64,${base64Image}`;
-		} else {
-			// Se o arquivo não foi enviado, busca a imagem existente
-			try {
+				const arrayBuffer = await arquivoPromo.arrayBuffer();
+				const buffer = Buffer.from(arrayBuffer);
+				const base64Image = buffer.toString('base64');
+				const fileExtension = arquivoPromo.name.split('.').pop();
+				fileBase64 = `data:image/${fileExtension};base64,${base64Image}`;
+			} else {
 				const existingImage = await db
 					.select()
 					.from(promocao)
@@ -93,50 +84,25 @@ export const actions: Actions = {
 
 				if (existingImage.length > 0) {
 					fileBase64 = existingImage[0].arquivo;
-				} else {
-					return {
-						status: 404,
-						body: {
-							message: 'promoção não encontrado'
-						}
-					};
 				}
-			} catch (error) {
-				console.error('Erro ao buscar promoção:', error);
-				return {
-					status: 500,
-					body: {
-						error: 'Erro ao buscar promoção. Por favor, tente novamente.'
-					}
-				};
 			}
-		}
 
-		try {
 			await db
 				.update(promocao)
 				.set({
 					nome: nomePromo as string,
-					valor: valor, // Agora 'valor' é uma string
+					valor: valor,
 					descricao: descricaoPromo as string,
-					arquivo: fileBase64
+					arquivo: fileBase64 || undefined
 				})
 				.where(eq(promocao.codigo, codigoInt));
 
-			return {
-				status: 200,
-				body: {
-					message: 'Promocao editada com sucesso!'
-				}
-			};
+			return { success: true };
 		} catch (error) {
 			console.error('Erro ao editar promoção:', error);
-			return {
-				status: 500,
-				body: {
-					error: 'Erro ao editar promoção. Por favor, tente novamente.'
-				}
-			};
+			return fail(500, {
+				message: 'Erro ao editar promoção'
+			});
 		}
 	},
 
@@ -159,7 +125,6 @@ export const actions: Actions = {
 
 		try {
 			await db.update(promocao).set({ estoque: estoqueInt }).where(eq(promocao.codigo, codigoInt));
-
 			return {
 				status: 200,
 				body: {

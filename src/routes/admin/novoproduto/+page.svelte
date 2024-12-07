@@ -13,6 +13,7 @@
 	import DatepickerFinal from '$lib/components/DatePicker-final2.svelte';
 	import { enhance } from '$app/forms';
 	import { toast } from 'svelte-sonner';
+	import { invalidateAll } from '$app/navigation';
 
 	let selectPromo = [0];
 
@@ -34,6 +35,106 @@
 			console.error('Erro de rede:', error);
 		}
 	});
+
+	// Função para validar campos
+	function validarCampos(formData: FormData) {
+		const erros = [];
+
+		// Validar nome do produto
+		const nome = formData.get('nomeProduto') as string;
+		if (!nome || nome.length < 3) {
+			erros.push('Nome do produto deve ter no mínimo 3 caracteres');
+		}
+
+		// Validar valor (apenas números e vírgula)
+		const valor = formData.get('valorProduto') as string;
+		if (!valor || !/^\d+(?:,\d{2})?$/.test(valor)) {
+			erros.push('Valor deve ser um número válido (ex: 10,90)');
+		}
+
+		// Validar estoque (apenas números)
+		const estoque = formData.get('estoque') as string;
+		if (!estoque || !/^\d+$/.test(estoque)) {
+			erros.push('Estoque deve ser um número inteiro');
+		}
+
+		// Validar descrição
+		const descricao = formData.get('descricao') as string;
+		if (!descricao || descricao.length < 10) {
+			erros.push('Descrição deve ter no mínimo 10 caracteres');
+		}
+
+		// Validar imagem
+		const arquivo = formData.get('arquivo') as File;
+		if (!arquivo || arquivo.size === 0) {
+			erros.push('Selecione uma imagem');
+		} else {
+			const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
+			if (!tiposPermitidos.includes(arquivo.type)) {
+				erros.push('Formato de imagem inválido. Use JPG, PNG ou WebP');
+			}
+		}
+
+		return erros;
+	}
+
+	// Função para validar campos da promoção
+	function validarCamposPromocao(formData: FormData) {
+		const erros = [];
+
+		// Validar nome da promoção
+		const nome = formData.get('nomePromo') as string;
+		if (!nome || nome.length < 3) {
+			erros.push('Nome da promoção deve ter no mínimo 3 caracteres');
+		}
+
+		// Validar produtos selecionados
+		const produtosSelecionados = Array.from(formData.entries())
+			.filter(([key]) => key.startsWith('cookieEscolhido'))
+			.map(([, value]) => value);
+
+		if (produtosSelecionados.length === 0) {
+			erros.push('Selecione pelo menos um produto');
+		}
+
+		// Validar valor promocional
+		const valor = formData.get('valorPromo') as string;
+		if (!valor || !/^\d+(?:,\d{2})?$/.test(valor)) {
+			erros.push('Valor promocional deve ser um número válido (ex: 10,90)');
+		}
+
+		// Validar estoque
+		const estoque = formData.get('estoquePromo') as string;
+		if (!estoque || !/^\d+$/.test(estoque)) {
+			erros.push('Estoque deve ser um número inteiro');
+		}
+
+		// Validar datas
+		const dataInicio = formData.get('dataInicio') as string;
+		const dataFim = formData.get('dataFim') as string;
+		if (!dataInicio || !dataFim) {
+			erros.push('Selecione as datas de início e fim da promoção');
+		}
+
+		// Validar descrição
+		const descricao = formData.get('descricaoPromo') as string;
+		if (!descricao || descricao.length < 10) {
+			erros.push('Descrição deve ter no mínimo 10 caracteres');
+		}
+
+		// Validar imagem
+		const arquivo = formData.get('arquivoPromo') as File;
+		if (!arquivo || arquivo.size === 0) {
+			erros.push('Selecione uma imagem');
+		} else {
+			const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
+			if (!tiposPermitidos.includes(arquivo.type)) {
+				erros.push('Formato de imagem inválido. Use JPG, PNG ou WebP');
+			}
+		}
+
+		return erros;
+	}
 </script>
 
 <div class="flex h-full w-full gap-32 px-20 py-10">
@@ -45,7 +146,37 @@
 			</Tabs.List>
 			<Tabs.Content value="novoProduto" class="h-full">
 				<Card.Root>
-					<form action="?/criarProduto" method="post" enctype="multipart/form-data">
+					<form
+						action="?/criarProduto"
+						method="post"
+						enctype="multipart/form-data"
+						use:enhance={({ formData, formElement }) => {
+							const erros = validarCampos(formData);
+
+							if (erros.length > 0) {
+								erros.forEach((erro) => {
+									toast.error('Erro de validação', {
+										description: erro
+									});
+								});
+								return () => {};
+							}
+
+							return async ({ result }) => {
+								if (result.type === 'success') {
+									formElement.reset();
+									await invalidateAll();
+									toast.success('Sucesso!', {
+										description: 'Produto criado com sucesso'
+									});
+								} else if (result.type === 'failure') {
+									toast.error('Erro!', {
+										description: 'Erro ao criar produto' as string
+									});
+								}
+							};
+						}}
+					>
 						<Card.Header>
 							<Card.Title>Adicionar novo produto</Card.Title>
 						</Card.Header>
@@ -118,7 +249,38 @@
 			</Tabs.Content>
 			<Tabs.Content value="promocao">
 				<Card.Root>
-					<form action="?/criarPromocao" method="POST" enctype="multipart/form-data">
+					<form
+						action="?/criarPromocao"
+						method="POST"
+						enctype="multipart/form-data"
+						use:enhance={({ formData, formElement }) => {
+							const erros = validarCamposPromocao(formData);
+
+							if (erros.length > 0) {
+								erros.forEach((erro) => {
+									toast.error('Erro', {
+										description: erro
+									});
+								});
+								return () => {};
+							}
+
+							return async ({ result }) => {
+								if (result.type === 'success') {
+									formElement.reset();
+									selectPromo = [0];
+									await invalidateAll();
+									toast.success('Sucesso!', {
+										description: 'Promoção criada com sucesso'
+									});
+								} else if (result.type === 'failure') {
+									toast.error('Erro!', {
+										description: 'Erro ao criar promoção'
+									});
+								}
+							};
+						}}
+					>
 						<Card.Header>
 							<Card.Title>Criar promoção</Card.Title>
 						</Card.Header>
@@ -175,7 +337,7 @@
 									/>
 								</div>
 							</div>
-							<div class=" flex w-full gap-10">
+							<div class="flex w-full gap-10">
 								<div class="flex w-1/2 flex-col gap-1">
 									<Label for="estoque">Data inicial</Label>
 									<DatepickerInicio value={null} />

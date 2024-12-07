@@ -34,11 +34,11 @@
 	const formatarMoeda = (valor: number | string) => {
 		return new Intl.NumberFormat('pt-BR', {
 			style: 'currency',
-			currency: 'BRL',
+			currency: 'BRL'
 		}).format(typeof valor === 'string' ? parseFloat(valor) : valor);
 	};
 
-	const DeletarItem = (item:Item) =>{
+	const DeletarItem = (item: Item) => {
 		try {
 			if (Array.isArray(itens)) {
 				itens = itens.filter((i) => item !== i);
@@ -47,7 +47,7 @@
 
 				toast.success('Item Deletado!', {
 					description: 'O item foi deletado de seu carrinho.',
-					duration: 1000,
+					duration: 1000
 				});
 			}
 		} catch (error) {
@@ -55,27 +55,30 @@
 				description: 'Não foi possível deletar o item do carrinho!'
 			});
 		}
-	}
+	};
 
-	const AtualizarItem = (item:Item, novaQuantidade:number) =>{
+	const AtualizarItem = (item: Item, novaQuantidade: number) => {
 		try {
 			if (Array.isArray(itens)) {
-				itens = itens.map((i) => i === item ? {
-					id: item.id,
-					nome: item.nome,
-					valor: item.valor,
-					quantidade: novaQuantidade,
-				}
-				: i);
-				
+				itens = itens.map((i) =>
+					i === item
+						? {
+								id: item.id,
+								nome: item.nome,
+								valor: item.valor,
+								quantidade: novaQuantidade
+							}
+						: i
+				);
+
 				sessionStorage.setItem('listItens', JSON.stringify(itens));
 			}
 		} catch (error) {
 			toast.error('Erro!', {
-				description: 'Não foi possível atualizar a quantidade do item!',
+				description: 'Não foi possível atualizar a quantidade do item!'
 			});
 		}
-	}
+	};
 </script>
 
 <Sheet.Root bind:open={isSheetOpen} onOpenChange={(open) => open && carregarItens()}>
@@ -87,7 +90,7 @@
 	<Sheet.Content class="flex w-1/4 flex-col justify-between bg-ghostWhite" side="right">
 		<div class="w-full overflow-auto">
 			<Sheet.Title class="flex gap-2 text-sm text-brownNose">
-				<ShoppingCart size={20} /> 
+				<ShoppingCart size={20} />
 				Seu carrinho {itens.length > 0 ? `(${itens.length})` : ''}
 			</Sheet.Title>
 
@@ -101,7 +104,11 @@
 								<p class="flex text-sm">{formatarMoeda(item.valor)}</p>
 							</div>
 							<div class="flex gap-1">
-								<CounterInput count={item.quantidade} minimum={1} onChangeValue={(quantidade) => AtualizarItem(item, quantidade)}/>
+								<CounterInput
+									count={item.quantidade}
+									minimum={1}
+									onChangeValue={(quantidade) => AtualizarItem(item, quantidade)}
+								/>
 								<Button
 									variant="link"
 									onclick={() => DeletarItem(item)}
@@ -117,7 +124,7 @@
 				{/each}
 			{:else}
 				<Separator class="my-5" />
-				<p class="text-center text-gray-500 text-md">Seu carrinho está vazio.</p>
+				<p class="text-md text-center text-gray-500">Seu carrinho está vazio.</p>
 			{/if}
 		</div>
 
@@ -126,7 +133,11 @@
 				<div class="flex justify-between text-sm">
 					<h1 class="font-semibold">Subtotal</h1>
 					<p class="pr-5">
-						{formatarMoeda(itens.reduce((total, item) => total + (parseFloat(item.valor) * item.quantidade), 0).toFixed(2))}
+						{formatarMoeda(
+							itens
+								.reduce((total, item) => total + parseFloat(item.valor) * item.quantidade, 0)
+								.toFixed(2)
+						)}
 					</p>
 				</div>
 			{/if}
@@ -150,7 +161,8 @@
 					variant="ghost"
 					href="/checkout"
 					class="flex bg-brownCrayola font-montserrat text-xs font-semibold text-white hover:bg-brownNose hover:text-white"
-					onclick={() => isSheetOpen = false}>
+					onclick={() => (isSheetOpen = false)}
+				>
 					Finalizar compra
 				</Button>
 			</div>

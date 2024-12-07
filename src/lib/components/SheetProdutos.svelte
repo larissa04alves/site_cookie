@@ -29,6 +29,29 @@
 	let arquivoPreview = produto.arquivo || '';
 	let novoArquivo: File | null = null;
 
+	// Estados de erro
+	let erros = {
+		nome: false,
+		valor: false,
+		descricao: false
+	};
+
+	// Função para validar valor (apenas números e vírgula)
+	function validarValor(valor: string): boolean {
+		return /^\d+(?:,\d{2})?$/.test(valor);
+	}
+
+	// Função para validar campos
+	function validarCampos(): boolean {
+		erros = {
+			nome: !nomeProduto || nomeProduto.length < 3,
+			valor: !valorProduto || !validarValor(valorProduto),
+			descricao: !descricao || descricao.length < 10
+		};
+
+		return !Object.values(erros).some(Boolean);
+	}
+
 	const handleFileChange = (event: Event) => {
 		const input = event.target as HTMLInputElement;
 		if (input.files && input.files[0]) {
@@ -60,12 +83,31 @@
 			action="?/editarProduto"
 			enctype="multipart/form-data"
 			use:enhance={({ formData }) => {
+				if (!validarCampos()) {
+					if (erros.nome) {
+						toast.error('Erro de validação', {
+							description: 'Nome deve ter no mínimo 3 caracteres'
+						});
+					}
+					if (erros.valor) {
+						toast.error('Erro de validação', {
+							description: 'Valor deve ser um número válido (ex: 10,90)'
+						});
+					}
+					if (erros.descricao) {
+						toast.error('Erro de validação', {
+							description: 'Descrição deve ter no mínimo 10 caracteres'
+						});
+					}
+					return () => {};
+				}
+
 				return async ({ result }) => {
 					if (result.status === 200) {
 						toast.success('Produto atualizado!', {
 							description: 'As alterações foram salvas com sucesso.'
 						});
-						
+
 						const updatedProduto = {
 							...produto,
 							nome: formData.get('nome') as string,
@@ -73,7 +115,7 @@
 							descricao: formData.get('descricao') as string,
 							arquivo: arquivoPreview || produto.arquivo
 						};
-						
+
 						onUpdate(updatedProduto);
 						isSheetOpen = false;
 					} else {
@@ -89,28 +131,40 @@
 					<Label for="nome">Nome:</Label>
 					<Input
 						name="nome"
-						class="border-brownNose"
+						class={`border-brownNose ${erros.nome ? 'border-red-500' : ''}`}
 						placeholder="Nome do Produto"
 						bind:value={nomeProduto}
+						oninput={() => (erros.nome = false)}
 					/>
+					{#if erros.nome}
+						<span class="text-xs text-red-500">Nome deve ter no mínimo 3 caracteres</span>
+					{/if}
 				</div>
 				<div class="flex w-5/6 flex-col items-start gap-3">
 					<Label for="valor">Valor:</Label>
 					<Input
 						name="valor"
-						class="border-brownNose"
+						class={`border-brownNose ${erros.valor ? 'border-red-500' : ''}`}
 						placeholder="Valor do Produto"
 						bind:value={valorProduto}
+						oninput={() => (erros.valor = false)}
 					/>
+					{#if erros.valor}
+						<span class="text-xs text-red-500">Valor deve ser um número válido (ex: 10,90)</span>
+					{/if}
 				</div>
 				<div class="flex w-5/6 flex-col items-start gap-3">
 					<Label for="descricao">Descrição:</Label>
 					<Textarea
 						name="descricao"
-						class="border-brownNose"
+						class={`border-brownNose ${erros.descricao ? 'border-red-500' : ''}`}
 						placeholder="Descrição do Produto"
 						bind:value={descricao}
+						oninput={() => (erros.descricao = false)}
 					/>
+					{#if erros.descricao}
+						<span class="text-xs text-red-500">Descrição deve ter no mínimo 10 caracteres</span>
+					{/if}
 				</div>
 				<div class="w-5/6">
 					<Label for="arquivo">Adicionar Imagem</Label>

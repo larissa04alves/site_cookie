@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Check } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import SheetProdutos from '$lib/components/SheetProdutos.svelte';
+	import SelectStatus from '$lib/components/SelectStatus.svelte';
 </script>
 
 <section class="container mx-auto w-[95%] px-4 pt-10">
@@ -109,18 +109,11 @@
 								</td>
 								<td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500">R$ 28,90</td>
 								<td class="whitespace-nowrap px-4 py-4 text-sm">
-									<div
-										class="inline-flex items-center gap-x-2 rounded-full bg-green-100/60 px-3 py-1 text-green-500"
-									>
-										<Check class="h-4 w-4" />
-
-										<h2 class="text-sm font-normal">Finalizado</h2>
-									</div>
+									<SelectStatus />
 								</td>
 								<td class="whitespace-nowrap px-4 py-4 text-sm text-gray-500"
 									>Entregar na casa amarela</td
 								>
-								<!-- <td> <SheetProdutos /></td> -->
 							</tr>
 						</tbody>
 					</table>
