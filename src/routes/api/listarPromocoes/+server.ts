@@ -11,7 +11,9 @@ export const GET: RequestHandler = async () => {
 			arquivoPromo: promocao.arquivo,
 			estoquePromo: promocao.estoque,
 			valorPromo: promocao.valor,
-			descricaoPromo: promocao.descricao // Adicione este campo
+			descricaoPromo: promocao.descricao,
+			dataInicio: promocao.dataInicio,
+			dataFim: promocao.dataFim
 		})
 		.from(promocao)
 		.orderBy(asc(promocao.codigo));

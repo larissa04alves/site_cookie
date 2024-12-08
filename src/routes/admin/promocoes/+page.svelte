@@ -22,9 +22,17 @@
 			console.error('Erro de rede:', error);
 		}
 	});
+
+	function isPromocaoExpirada(dataFim: string) {
+		const hoje = new Date();
+		hoje.setHours(0, 0, 0, 0);
+		const dataFimPromo = new Date(dataFim);
+		dataFimPromo.setHours(0, 0, 0, 0);
+		return dataFimPromo < hoje;
+	}
 </script>
 
-<div class="container mx-auto px-4 pt-20">
+<div class="container mx-auto px-4">
 	{#if cookie.length === 0}
 		<div class="flex h-[60vh] flex-col items-center justify-center gap-4">
 			<p class="text-lg font-medium text-gray-600">Nenhuma promoção cadastrada</p>
@@ -41,11 +49,24 @@
 			{#each cookie as produto}
 				<div class="mx-auto flex w-full max-w-xs flex-col items-center justify-center">
 					<div
-						class="h-52 w-full rounded-lg bg-gray-300 bg-cover bg-center object-fill shadow-md"
+						class="h-52 w-full rounded-lg bg-cover bg-center object-fill shadow-md transition-all duration-300"
+						class:opacity-50={isPromocaoExpirada(produto.dataFim)}
+						class:bg-gray-300={isPromocaoExpirada(produto.dataFim)}
 						style="background-image: url({produto.arquivoPromo});"
 					></div>
-					<div class="-mt-10 w-56 overflow-hidden rounded-lg bg-white shadow-lg md:w-64">
-						<h3 class="py-2 text-center font-bold uppercase text-gray-800">{produto.nomePromo}</h3>
+					<div
+						class="-mt-10 w-56 overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 md:w-64"
+						class:opacity-50={isPromocaoExpirada(produto.dataFim)}
+					>
+						<h3
+							class="py-2 text-center font-bold uppercase"
+							class:text-gray-500={isPromocaoExpirada(produto.dataFim)}
+						>
+							{produto.nomePromo}
+							{#if isPromocaoExpirada(produto.dataFim)}
+								<span class="block text-xs font-normal text-red-500">Promoção expirada</span>
+							{/if}
+						</h3>
 
 						<!-- Formulário para editar a quantidade -->
 						<form

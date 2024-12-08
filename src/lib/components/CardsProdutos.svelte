@@ -7,51 +7,50 @@
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let cookie: Array<any> = [];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let promocoes: Array<any> = [];
 	let activeProduct: number | null = null;
 
 	onMount(async () => {
 		try {
-			const res = await fetch('/api/listarProdutos');
-			if (res.ok) {
-				cookie = await res.json();
+			// Busca produtos normais
+			const resProdutos = await fetch('/api/listarProdutos');
+			if (resProdutos.ok) {
+				cookie = await resProdutos.json();
+			}
 
-				// Verifica se há um produto para destacar na URL
-				const hash = window.location.hash;
-				if (hash) {
-					const productId = parseInt(hash.replace('#produto-', ''));
-					activeProduct = productId;
-					const element = document.getElementById(`produto-${productId}`);
-					if (element) {
-						element.scrollIntoView({ behavior: 'smooth' });
-						// Adiciona e remove classe para highlight temporário
-						element.classList.add('scale-105', 'shadow-2xl', 'border-2', 'border-brownCrayola');
-						setTimeout(() => {
-							element.classList.remove(
-								'scale-105',
-								'shadow-2xl',
-								'border-2',
-								'border-brownCrayola'
-							);
-						}, 2000);
-					}
-				}
-			} else {
-				console.error('Erro ao carregar os produtos');
+			// Busca promoções
+			const resPromocoes = await fetch('/api/listarPromocoes');
+			if (resPromocoes.ok) {
+				const todasPromocoes = await resPromocoes.json();
+
+				// Filtra apenas promoções válidas
+				const hoje = new Date();
+				hoje.setHours(0, 0, 0, 0);
+
+				promocoes = todasPromocoes.filter((promo: any) => {
+					const dataInicio = new Date(promo.dataInicio);
+					const dataFim = new Date(promo.dataFim);
+
+					dataInicio.setHours(0, 0, 0, 0);
+					dataFim.setHours(0, 0, 0, 0);
+
+					return dataInicio <= hoje && dataFim >= hoje;
+				});
 			}
 		} catch (error) {
-			console.error('Erro de rede:', error);
+			console.error('Erro ao carregar dados:', error);
 		}
 	});
 
-	async function addItem(produto: any) {
+	async function addItem(item: any, isPromocao = false) {
 		try {
 			const storageProduto = {
 				id: crypto.randomUUID(),
-				codigo: produto.codigo,
-				nome: produto.nome,
-				valor: produto.valor,
-				estoque: produto.estoque,
-				//imagem: produto.arquivo,
+				codigo: item.codigo,
+				nome: isPromocao ? item.nomePromo : item.nome,
+				valor: isPromocao ? item.valorPromo : item.valor,
+				estoque: isPromocao ? item.estoquePromo : item.estoque,
 				quantidade: 1
 			};
 
@@ -59,7 +58,6 @@
 			const listItens = listItensStorage ? JSON.parse(listItensStorage) : [];
 
 			listItens.push(storageProduto);
-
 			sessionStorage.setItem('listItens', JSON.stringify(listItens));
 
 			toast.success('Item adicionado!', {
@@ -70,12 +68,45 @@
 			toast.error('Erro ao adicionar o Item!', {
 				description: 'Infelizmente não conseguimos adicionar o item em seu carrinho.'
 			});
-			console.error('Erro de rede:', error);
 		}
 	}
 </script>
 
 <div class="mx-auto grid w-4/5 grid-cols-1 gap-x-28 gap-y-10 md:grid-cols-4 lg:grid-cols-4">
+	{#if promocoes.length > 0}
+		{#each promocoes as promocao}
+			<div
+				class="relative flex h-96 w-60 flex-col items-center justify-center gap-4 rounded-xl bg-seashell py-3 shadow-2xl transition-all duration-300"
+			>
+				<div class="absolute right-3 top-3 flex items-center rounded-full bg-red-500/80 px-2 py-1">
+					<span class="text-xs font-semibold text-white">Promoção</span>
+				</div>
+				<div class="relative h-[75%] w-[90%] overflow-hidden rounded-xl">
+					<img
+						class="h-full w-full object-cover"
+						src={promocao.arquivoPromo}
+						alt={promocao.nomePromo}
+					/>
+				</div>
+				<div class="flex w-full flex-col px-4">
+					<div class="flex items-center justify-between">
+						<h1 class="text-lg font-semibold text-brownNose">{promocao.nomePromo}</h1>
+					</div>
+					<div class="mt-2 flex items-center justify-between">
+						<h1 class="text-lg font-semibold text-brownNose">R$ {promocao.valorPromo}</h1>
+						<Button
+							variant="ghost"
+							class="flex h-8 w-8 items-center justify-center rounded-full bg-brownCrayola p-0 hover:bg-brownNose"
+							onclick={() => addItem(promocao, true)}
+						>
+							<ShoppingCart size={18} color="white" />
+						</Button>
+					</div>
+				</div>
+			</div>
+		{/each}
+	{/if}
+
 	{#each cookie as produto}
 		<div
 			id="produto-{produto.codigo}"

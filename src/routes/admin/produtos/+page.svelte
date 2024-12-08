@@ -27,7 +27,7 @@
 	}
 </script>
 
-<div class="container mx-auto px-4 pt-20">
+<div class="container mx-auto px-4">
 	{#if cookie.length === 0}
 		<div class="flex h-[60vh] flex-col items-center justify-center gap-4">
 			<p class="text-lg font-medium text-gray-600">Nenhum produto cadastrado</p>

@@ -46,10 +46,10 @@
 			erros.push('Nome do produto deve ter no mínimo 3 caracteres');
 		}
 
-		// Validar valor (apenas números e vírgula)
+		// Validar valor (aceita números com ponto ou vírgula)
 		const valor = formData.get('valorProduto') as string;
-		if (!valor || !/^\d+(?:,\d{2})?$/.test(valor)) {
-			erros.push('Valor deve ser um número válido (ex: 10,90)');
+		if (!valor || !/^\d+(?:[.,]\d{2})?$/.test(valor)) {
+			erros.push('Valor deve ser um número válido (ex: 10,90 ou 10.90)');
 		}
 
 		// Validar estoque (apenas números)
@@ -60,8 +60,8 @@
 
 		// Validar descrição
 		const descricao = formData.get('descricao') as string;
-		if (!descricao || descricao.length < 10) {
-			erros.push('Descrição deve ter no mínimo 10 caracteres');
+		if (!descricao || descricao.length < 3) {
+			erros.push('Descrição deve ter no mínimo 3 caracteres');
 		}
 
 		// Validar imagem
@@ -97,10 +97,10 @@
 			erros.push('Selecione pelo menos um produto');
 		}
 
-		// Validar valor promocional
+		// Validar valor promocional (aceita números com ponto ou vírgula)
 		const valor = formData.get('valorPromo') as string;
-		if (!valor || !/^\d+(?:,\d{2})?$/.test(valor)) {
-			erros.push('Valor promocional deve ser um número válido (ex: 10,90)');
+		if (!valor || !/^\d+(?:[.,]\d{2})?$/.test(valor)) {
+			erros.push('Valor promocional deve ser um número válido (ex: 10,90 ou 10.90)');
 		}
 
 		// Validar estoque
@@ -118,8 +118,8 @@
 
 		// Validar descrição
 		const descricao = formData.get('descricaoPromo') as string;
-		if (!descricao || descricao.length < 10) {
-			erros.push('Descrição deve ter no mínimo 10 caracteres');
+		if (!descricao || descricao.length < 3) {
+			erros.push('Descrição deve ter no mínimo 3 caracteres');
 		}
 
 		// Validar imagem

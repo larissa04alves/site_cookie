@@ -35,9 +35,9 @@
 		descricao: false
 	};
 
-	// Função para validar valor (apenas números e vírgula)
+	// Função para validar valor (aceita números com ponto ou vírgula)
 	function validarValor(valor: string): boolean {
-		return /^\d+(?:,\d{2})?$/.test(valor);
+		return /^\d+(?:[.,]\d{2})?$/.test(valor);
 	}
 
 	// Função para validar campos
