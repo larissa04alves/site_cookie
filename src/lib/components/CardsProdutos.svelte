@@ -78,8 +78,16 @@
 			<div
 				class="relative flex h-96 w-60 flex-col items-center justify-center gap-4 rounded-xl bg-seashell py-3 shadow-2xl transition-all duration-300"
 			>
-				<div class="absolute right-3 top-3 flex items-center rounded-full bg-red-500/80 px-2 py-1">
-					<span class="text-xs font-semibold text-white">Promoção</span>
+				<div
+					class="absolute right-5 top-6 z-10 flex items-center rounded-full px-2 py-1 {promocao.nomePromo
+						.toLowerCase()
+						.includes('combo')
+						? 'bg-blue-500/80'
+						: 'bg-red-500/80'}"
+				>
+					<span class="text-xs font-semibold text-white">
+						{promocao.nomePromo.toLowerCase().includes('combo') ? 'Combo' : 'Promoção'}
+					</span>
 				</div>
 				<div class="relative h-[75%] w-[90%] overflow-hidden rounded-xl">
 					<img

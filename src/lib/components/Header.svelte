@@ -17,6 +17,7 @@
 	let searchTerm = '';
 	let searchResults: Produto[] = [];
 	let showResults = false;
+	let quantidadeItens = 0;
 
 	async function handleSearch() {
 		if (searchTerm.length < 2) {
@@ -49,6 +50,33 @@
 		document.addEventListener('click', handleClickOutside);
 		return () => {
 			document.removeEventListener('click', handleClickOutside);
+		};
+	});
+
+	onMount(() => {
+		// Função para atualizar quantidade
+		const atualizarQuantidade = () => {
+			const listItens = sessionStorage.getItem('listItens');
+			if (listItens) {
+				const itens = JSON.parse(listItens);
+				quantidadeItens = itens.length;
+			} else {
+				quantidadeItens = 0;
+			}
+		};
+
+		// Atualiza inicialmente
+		atualizarQuantidade();
+
+		// Adiciona listener para mudanças no sessionStorage
+		window.addEventListener('storage', atualizarQuantidade);
+
+		// Observa mudanças no sessionStorage a cada 500ms
+		const interval = setInterval(atualizarQuantidade, 500);
+
+		return () => {
+			window.removeEventListener('storage', atualizarQuantidade);
+			clearInterval(interval);
 		};
 	});
 </script>
@@ -123,7 +151,16 @@
 			{/if}
 		</div>
 
-		<SheetCarrinho />
+		<div class="relative">
+			<SheetCarrinho />
+			{#if quantidadeItens > 0}
+				<div
+					class="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+				>
+					{quantidadeItens}
+				</div>
+			{/if}
+		</div>
 		<Button
 			class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
 			href="/login"
