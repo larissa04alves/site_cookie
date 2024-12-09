@@ -1,42 +1,30 @@
-import { redirect } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+import { generateState, generateCodeVerifier } from 'arctic';
+import { google } from '$lib/server/authUtils.server';
 
-import { generateCodeVerifier, generateState } from 'arctic';
+import type { RequestEvent } from '@sveltejs/kit';
 
-import {
-	GOOGLE_OAUTH_CODE_VERIFIER_COOKIE_NAME,
-	GOOGLE_OAUTH_STATE_COOKIE_NAME
-} from '$lib/server/authUtils.server';
-import { google } from '$lib/server/auth';
-
-export const GET: RequestHandler = async ({ cookies }) => {
-	// Generate a unique state value for the OAuth  process
+export async function GET(event: RequestEvent): Promise<Response> {
 	const state = generateState();
 	const codeVerifier = generateCodeVerifier();
+	const url = google.createAuthorizationURL(state, codeVerifier, ['openid', 'profile']);
 
-	// Create the Google OAuth authorization URL
-	const url = await google.createAuthorizationURL(state, codeVerifier, {
-		scopes: ['profile', 'email']
-	});
-
-	// Set a cookie with the state value, to be used for CSRF protection
-	cookies.set(GOOGLE_OAUTH_STATE_COOKIE_NAME, state, {
-		path: '/', // The cookie will be accessible on all paths
-		secure: import.meta.env.PROD, // The cookie will be sent over HTTPS if in production
-		httpOnly: true, // The cookie cannot be accessed through client-side script
-		maxAge: 60 * 10, // The cookie will expire after 10 minutes
-		sameSite: 'lax' // The cookie will only be sent with same-site requests or top-level navigations
-	});
-
-	// Set a cookie with the code verifier, to be used for PKCE
-	cookies.set(GOOGLE_OAUTH_CODE_VERIFIER_COOKIE_NAME, codeVerifier, {
+	event.cookies.set('google_oauth_state', state, {
 		path: '/',
-		secure: import.meta.env.PROD,
 		httpOnly: true,
-		maxAge: 60 * 10,
+		maxAge: 60 * 10, // 10 minutes
+		sameSite: 'lax'
+	});
+	event.cookies.set('google_code_verifier', codeVerifier, {
+		path: '/',
+		httpOnly: true,
+		maxAge: 60 * 10, // 10 minutes
 		sameSite: 'lax'
 	});
 
-	// Redirect the user to the GitHub OAuth authorization URL
-	redirect(302, url);
-};
+	return new Response(null, {
+		status: 302,
+		headers: {
+			Location: url.toString()
+		}
+	});
+}

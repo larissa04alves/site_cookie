@@ -28,11 +28,11 @@
 				<Button
 					variant="ghost"
 					href="#produtos"
-					class="font-montserrat flex w-[12%] gap-2 rounded-3xl bg-brownCrayola py-5 text-xs font-semibold text-white hover:bg-brownNose hover:text-white"
+					class="flex w-[12%] gap-2 rounded-3xl bg-brownCrayola py-5 font-montserrat text-xs font-semibold text-white hover:bg-brownNose hover:text-white"
 					>COMPRE AGORA <ArrowRight size={15} strokeWidth={3} /></Button
 				>
 			</div>
-			<div class="font-montserrat flex gap-5 pt-10">
+			<div class="flex gap-5 pt-10 font-montserrat">
 				<div class="flex flex-col items-center justify-center text-brownCrayola">
 					<h1 class="text-2xl font-bold">100%</h1>
 					<p class="text-xs">Ingredientes naturais</p>
@@ -56,23 +56,23 @@
 		class="mb-10 flex h-full w-full flex-col items-center justify-center gap-6 py-12"
 	>
 		<div class="flex w-full items-center justify-center px-20">
-			<h1 class="font-cormorant w-full pl-16 text-4xl font-bold text-brownNose">
+			<h1 class="w-full pl-16 font-cormorant text-4xl font-bold text-brownNose">
 				• Nossos Cookies •
 			</h1>
 			<div class="flex gap-2">
 				<Button
 					variant="ghost"
-					class="font-montserrat flex w-1/3 rounded-3xl border border-brownNose py-2 text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
+					class="flex w-1/3 rounded-3xl border border-brownNose py-2 font-montserrat text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
 					>Mais recentes</Button
 				>
 				<Button
 					variant="ghost"
-					class="font-montserrat flex w-1/3 rounded-3xl border border-brownNose py-2 text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
+					class="flex w-1/3 rounded-3xl border border-brownNose py-2 font-montserrat text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
 					>Populares</Button
 				>
 				<Button
 					variant="ghost"
-					class="font-montserrat flex w-1/3 rounded-3xl border border-brownNose py-2 text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
+					class="flex w-1/3 rounded-3xl border border-brownNose py-2 font-montserrat text-[0.65rem] font-semibold text-brownNose hover:bg-brownNose hover:text-white"
 					>Promoções</Button
 				>
 			</div>

@@ -6,6 +6,7 @@
 	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import { derived } from 'svelte/store';
+	import type { LayoutData } from './$types';
 
 	// Variável derivada que acompanha o caminho atual da URL
 	const linkAtual = derived(page, ($page) => $page.url.pathname);
@@ -18,7 +19,7 @@
 <ModeWatcher defaultMode="light" />
 
 {#if $linkAtual === '/'}
-	<Header />
+	<Header user={$page.data.user} />
 {/if}
 
 <div class="flex h-full w-full flex-col items-center justify-center">

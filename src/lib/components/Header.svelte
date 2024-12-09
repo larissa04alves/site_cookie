@@ -1,10 +1,13 @@
 <script lang="ts">
 	import logo from '$lib/img/logoCookiesMo.png';
-	import { Search, ShoppingCart, User } from 'lucide-svelte';
+	import { Search, ShoppingCart, User, LogOut, Settings } from 'lucide-svelte';
 	import { Button } from './ui/button';
 	import { Input } from './ui/input';
 	import SheetCarrinho from './SheetCarrinho.svelte';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { onMount } from 'svelte';
+
+	export let user: { admin: boolean } | null = null;
 
 	interface Produto {
 		codigo: number;
@@ -161,11 +164,38 @@
 				</div>
 			{/if}
 		</div>
-		<Button
-			class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
-			href="/login"
-			variant="ghost"><User class="w-4 text-brownNose" /></Button
-		>
+		<DropdownMenu.Root>
+			<DropdownMenu.Trigger>
+				<Button
+					class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
+					variant="ghost"
+				>
+					<User class="w-4 text-brownNose" />
+				</Button>
+			</DropdownMenu.Trigger>
+			<DropdownMenu.Content class="w-48">
+				{#if !user}
+					<DropdownMenu.Item>
+						<Button href="/login" variant="ghost" class="w-full justify-start">Fazer Login</Button>
+					</DropdownMenu.Item>
+				{:else}
+					{#if user.admin}
+						<DropdownMenu.Item>
+							<Button href="/admin/produtos" variant="ghost" class="w-full justify-start gap-2">
+								<Settings class="h-4 w-4" />
+								Admin
+							</Button>
+						</DropdownMenu.Item>
+					{/if}
+					<DropdownMenu.Item>
+						<Button href="/logout" variant="ghost" class="w-full justify-start gap-2">
+							<LogOut class="h-4 w-4" />
+							Sair
+						</Button>
+					</DropdownMenu.Item>
+				{/if}
+			</DropdownMenu.Content>
+		</DropdownMenu.Root>
 	</div>
 </nav>
 

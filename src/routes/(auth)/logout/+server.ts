@@ -1,26 +1,18 @@
-// src/routes/logout/+server.ts
-import { lucia } from '$lib/server/auth';
+import { invalidateSession, deleteSessionTokenCookie } from '$lib/server/session';
 import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { deleteSessionCookie } from '$lib/server/authUtils.server';
 
-export const GET: RequestHandler = async ({ cookies, locals }) => {
-	// Verificar se o usuário está autenticado
-	if (!locals.user) {
+export const GET: RequestHandler = async (event) => {
+	if (!event.locals.session) {
 		throw redirect(302, '/');
 	}
 
-	// Obter o ID da sessão a partir do cookie
-	const sessionId = cookies.get('auth_session'); // Substitua pelo nome do seu cookie de sessão, se diferente
-
-	if (sessionId) {
-		// Invalidar a sessão atual
-		await lucia.invalidateSession(sessionId);
-		await deleteSessionCookie(lucia, cookies);
-		// Deletar o cookie de sessão
-		cookies.delete('auth_session', { path: '/' }); // Certifique-se de que o caminho corresponde ao que foi definido
+	try {
+		await invalidateSession(event.locals.session.id);
+		deleteSessionTokenCookie(event);
+	} catch (error) {
+		console.error('Erro ao fazer logout:', error);
 	}
 
-	// Redirecionar para a página inicial
 	throw redirect(302, '/');
 };
