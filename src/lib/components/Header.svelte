@@ -4,7 +4,8 @@
 	import { Button } from './ui/button';
 	import { Input } from './ui/input';
 	import SheetCarrinho from './SheetCarrinho.svelte';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import { onMount } from 'svelte';
 
 	export let user: { admin: boolean } | null = null;
@@ -165,13 +166,13 @@
 			{/if}
 		</div>
 		<DropdownMenu.Root>
-			<DropdownMenu.Trigger>
-				<Button
-					class="flex h-10 w-10 items-center justify-center rounded-full bg-ghostWhite p-0"
-					variant="ghost"
-				>
-					<User class="w-4 text-brownNose" />
-				</Button>
+			<DropdownMenu.Trigger
+				class="{buttonVariants({
+					variant: 'ghost',
+					size: 'icon'
+				})} flex h-10 w-10 items-center justify-center rounded-full  bg-ghostWhite p-0"
+			>
+				<User class="h-4 w-4 text-brownNose" />
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content class="w-48">
 				{#if !user}
