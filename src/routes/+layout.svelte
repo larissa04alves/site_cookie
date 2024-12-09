@@ -14,6 +14,10 @@
 	setMode('light');
 </script>
 
+<svelte:head>
+	<title>Nossa loja - Cookie da Mo</title>
+</svelte:head>
+
 <Toaster richColors />
 
 <ModeWatcher defaultMode="light" />
