@@ -167,10 +167,7 @@
 		</div>
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger
-				class="{buttonVariants({
-					variant: 'ghost',
-					size: 'icon'
-				})} flex h-10 w-10 items-center justify-center rounded-full  bg-ghostWhite p-0"
+				class="flex h-10 w-10 items-center justify-center rounded-full border border-transparent bg-ghostWhite p-0"
 			>
 				<User class="h-4 w-4 text-brownNose" />
 			</DropdownMenu.Trigger>

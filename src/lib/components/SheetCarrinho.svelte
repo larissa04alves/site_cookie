@@ -143,18 +143,7 @@
 					</p>
 				</div>
 			{/if}
-			<div class="flex items-center gap-2">
-				<h1 class="flex items-center gap-1 text-xs text-brownNose"><Truck />Calcular frete</h1>
-				<div class="flex">
-					<Input
-						class=" border-brownNose focus-visible:ring-brownNose"
-						placeholder="Digite seu CEP"
-					/>
-					<Button variant="ghost" class="flex hover:bg-transparent hover:text-brownCrayola">
-						<ArrowRight class="text-brownNose" />
-					</Button>
-				</div>
-			</div>
+
 			<div class="flex items-center justify-start">
 				<Sheet.Close class="{buttonVariants({ variant: 'link' })} text-xs">
 					Continuar comprando

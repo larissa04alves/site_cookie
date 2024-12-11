@@ -24,9 +24,9 @@
 	<div class="flex flex-col justify-center">
 		<p class="flex justify-center pb-1 text-sm font-bold text-seashell">REDES SOCIAIS</p>
 		<div>
-			<Button class="p-0 text-seashell hover:bg-transparent hover:text-white" variant="ghost"
+			<!-- <Button class="p-0 text-seashell hover:bg-transparent hover:text-white" variant="ghost"
 				><Instagram /></Button
-			>
+			> -->
 			<Button class="hover:bg-transparent" variant="ghost"><img src={whatsapp} alt="" /></Button>
 		</div>
 	</div>
