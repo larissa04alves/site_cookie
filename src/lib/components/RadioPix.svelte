@@ -54,7 +54,7 @@
 					</p>
 					<Button
 						href="https://wa.me/5551981740691?text=Ol%C3%A1%2C%20finalizei%20o%20meu%20pedido%20no%20site!%20Segue%20o%20comprovante"
-						class="bg-brownCrayola text-xs hover:bg-brownCrayola hover:font-semibold"
+						class="bg-brownCrayola text-xs hover:bg-brownCrayola hover:font-semibold" target="_blank"
 					>
 						<img src={whatsapp} alt="WhatsApp" class="h-4 w-4" />
 						Enviar comprovante</Button

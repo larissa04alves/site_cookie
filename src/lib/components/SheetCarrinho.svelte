@@ -12,6 +12,7 @@
 	let isSheetOpen = false;
 
 	type Item = {
+		codigo: number;
 		id: string;
 		nome: string;
 		valor: string;
@@ -64,6 +65,7 @@
 					i === item
 						? {
 								id: item.id,
+								codigo: item.codigo,
 								nome: item.nome,
 								valor: item.valor,
 								quantidade: novaQuantidade

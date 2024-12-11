@@ -6,8 +6,12 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import RadioPix from '$lib/components/RadioPix.svelte';
 	import RadioFrete from '$lib/components/RadioFrete.svelte';
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft, TrainFrontTunnel } from 'lucide-svelte';
 	import { onMount } from 'svelte';
+	import { enhance } from '$app/forms';
+	import { toast } from 'svelte-sonner';
+	import { goto, invalidateAll } from '$app/navigation';
+	import { redirect } from '@sveltejs/kit';
 
 	type Item = {
 		id: string;
@@ -18,6 +22,7 @@
 
 	let itens: Array<Item> = [];
 	let showQRCode = false;
+	let finalizarPedido = false;
 
 	const carregarItens = () => {
 		const storedItems = sessionStorage.getItem('listItens');
@@ -32,6 +37,10 @@
 		}
 	};
 
+	const limparListaItensSession = () =>{
+		sessionStorage.removeItem('listItens');
+	};
+
 	const formatarMoeda = (valor: number | string) => {
 		return new Intl.NumberFormat('pt-BR', {
 			style: 'currency',
@@ -43,9 +52,99 @@
 		carregarItens();
 	});
 
-	const handlePagarAgora = () => {
-		showQRCode = true;
+	const enviarPedido = () =>{
+		
 	};
+
+	const handlePagarAgora = () => {
+		if(finalizarPedido == false)
+		{
+			showQRCode = true;
+			finalizarPedido = true;
+		}
+		else{
+			enviarPedido();
+		}
+	};
+
+	function validarCampos(formData: FormData) {
+		const erros = [];
+
+		if(itens.length == 0){
+			erros.push('Nenhum item no carrinho');
+		}
+
+		// Validar nome do produto
+		const nome = formData.get('name') as string;
+		if (!nome || nome.trim() == '') {
+			erros.push('Nome deve ser informado');
+		}
+
+		const lastname = formData.get('lastname') as string;
+		if (!lastname || lastname.trim() == '') {
+			erros.push('Sobrenome deve ser informado');
+		}
+		
+		const cep = formData.get('cep') as string;
+		if (!cep || cep.length != 9) {
+			erros.push('Cep inválido');
+		}
+
+		const endereco = formData.get('adress') as string;
+		if (!endereco || endereco.trim() == '') {
+			erros.push('Endereço inválido');
+		}
+
+		const numero = formData.get('number') as string;
+		if (!numero || numero.trim() == '') {
+			erros.push('Número inválido');
+		}
+
+		const bairro = formData.get('bairro') as string;
+		if (!bairro || bairro.trim() == '') {
+			erros.push('Bairro inválido');
+		}
+
+		const cidade = formData.get('city') as string;
+		if (!cidade || cidade.trim() == '') {
+			erros.push('Cidade inválida');
+		}
+
+		const telefone = formData.get('phone') as string;
+		if (!telefone || telefone.trim() == '' || telefone.length < 10) {
+			erros.push('Telefone inválido');
+		}
+
+		return erros;
+	}
+
+	let cep = "";
+    let telefone = "";
+
+   // Função para aplicar a máscara ao CEP
+   function aplicarMascaraCEP(value: string): string {
+        let apenasNumeros = value.replace(/\D/g, "");
+        if (apenasNumeros.length <= 5) {
+            return apenasNumeros; // Só adiciona o hífen quando houver mais de 5 números
+        }
+        return apenasNumeros.slice(0, 5) + "-" + apenasNumeros.slice(5, 8); // Formato CEP
+    }
+
+    // Função para aplicar a máscara ao telefone
+    function aplicarMascaraTelefone(value: string): string {
+        let apenasNumeros = value.replace(/\D/g, "");
+        if (apenasNumeros.length <= 2) {
+            return `(${apenasNumeros}`; // Formato do DDD
+        }
+        if (apenasNumeros.length <= 7) {
+            return `(${apenasNumeros.slice(0, 2)}) ${apenasNumeros.slice(2)}`; // Formato do número
+        }
+        return `(${apenasNumeros.slice(0, 2)}) ${apenasNumeros.slice(2, 7)}-${apenasNumeros.slice(7, 11)}`; // Formato completo
+    }
+
+    // Máscaras reativas
+    $: cep = aplicarMascaraCEP(cep);
+    $: telefone = aplicarMascaraTelefone(telefone);
 </script>
 
 <div class="flex h-full w-full flex-col bg-seashell font-montserrat">
@@ -54,7 +153,42 @@
 		<img class="flex w-24 p-2" src={logo} alt="" />
 	</div>
 	<Separator class="bg-brownNose" />
+	<form
+	action="?/gravarPedido"
+	method="post"
+	enctype="multipart/form-data"
+	use:enhance={({formData, formElement}) => {
+		const erros = validarCampos(formData);
+
+		if (erros.length > 0) {
+			erros.forEach((erro) => {
+				toast.error('Erro de validação', {
+					description: erro
+				});
+			});
+			return () => {};
+		}
+
+		return async ({ result }) => {
+			if (result.type === 'success') {
+				formElement.reset();
+				await invalidateAll();
+				toast.success('Sucesso!', {
+					description: 'Produto criado com sucesso'
+				});
+				limparListaItensSession();
+				goto("/");
+			} else if (result.type === 'failure') {
+				toast.error('Erro!', {
+					description: 'Erro ao criar produto' as string
+				});
+			}
+		};
+	}}>
 	<div class="flex h-full w-full">
+
+		<input type="hidden" id="itens" name="itens" value="{JSON.stringify(itens)}" />
+
 		<div class="flex h-full w-1/2 flex-col gap-5 px-24 py-5">
 			<div class="flex justify-between">
 				<h1 class="font-montserrat text-xl font-semibold text-brownNose">Endereço</h1>
@@ -98,7 +232,9 @@
 						id="cep"
 						name="cep"
 						type="text"
+						bind:value={cep}
 						class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
+						maxlength={9}
 					/>
 					<Label
 						for="cep"
@@ -114,6 +250,7 @@
 							id="adress"
 							name="adress"
 							type="text"
+							maxlength={255}
 							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
 						/>
 						<Label
@@ -129,6 +266,7 @@
 							id="number"
 							name="number"
 							type="number"
+							maxlength={20}
 							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
 						/>
 						<Label
@@ -146,6 +284,7 @@
 							id="bairro"
 							name="bairro"
 							type="text"
+							maxlength={100}
 							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
 						/>
 						<Label
@@ -160,6 +299,7 @@
 							id="city"
 							name="city"
 							type="text"
+							maxlength={100}
 							class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
 						/>
 						<Label
@@ -175,6 +315,7 @@
 						id="phone"
 						name="phone"
 						type="tel"
+						bind:value={telefone}
 						class="peer border-b border-brownCrayola bg-inherit py-1 transition-colors focus:border-b-0  focus:outline-none"
 					/>
 					<Label
@@ -192,14 +333,23 @@
 			<div class="flex h-full w-full flex-col gap-5 py-5">
 				<h1 class="font-montserrat text-xl font-semibold text-brownNose">Pagamento</h1>
 				<RadioPix {showQRCode} />
-				<Button
-					onclick={handlePagarAgora}
-					class="my-5 bg-brownNose font-montserrat hover:bg-brownCrayola"
-				>
-					Pagar agora
-				</Button>
+				{#if !finalizarPedido}
+					<Button
+						onclick={handlePagarAgora}
+						class="my-5 bg-brownNose font-montserrat hover:bg-brownCrayola"
+					>
+						Pagar Agora
+					</Button>
+				{:else}
+					<Button
+							formaction="?/gravarPedido"
+							type="submit"
+							class="my-5 bg-brownNose font-montserrat hover:bg-brownCrayola">Finalizar Pedido</Button
+						>
+				{/if}
 			</div>
 		</div>
+		
 		<!-- parte 2 -->
 		<div class="h-min-[100%] flex w-1/2 flex-col bg-ghostWhite px-24">
 			<div class="mt-10 flex flex-col gap-2">
@@ -265,4 +415,5 @@
 			</div>
 		</div>
 	</div>
+</form>
 </div>

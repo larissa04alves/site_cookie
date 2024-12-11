@@ -83,9 +83,9 @@ export const pedidoItem = pgTable('pedido_item', {
 export const cliente = pgTable('cliente', {
 	id: serial('id').primaryKey(),
 	nome: varchar('nome', { length: 255 }).notNull(),
-	documento: varchar('documento', { length: 50 }).notNull().unique(),
+	// documento: varchar('documento', { length: 50 }).notNull().unique(),
 	dataNascimento: date('data_nascimento'),
-	email: varchar('email', { length: 255 }).notNull().unique(),
+	// email: varchar('email', { length: 255 }).notNull().unique(),
 	senha: text('senha').notNull()
 });
 
@@ -115,6 +115,13 @@ export type ProdutoSelect = typeof produto.$inferSelect;
 export type ProdutoInsert = typeof produto.$inferInsert;
 
 export type Pedido = typeof pedido.$inferSelect;
+export type PedidoInsert = typeof pedido.$inferInsert;
+
 export type PedidoItem = typeof pedidoItem.$inferSelect;
+export type PedidoItemInsert = typeof pedidoItem.$inferInsert;
+
 export type Cliente = typeof cliente.$inferSelect;
+export type ClienteInsert = typeof cliente.$inferInsert;
+
 export type EnderecoCliente = typeof enderecoCliente.$inferSelect;
+export type EnderecoClienteInsert= typeof enderecoCliente.$inferInsert;
